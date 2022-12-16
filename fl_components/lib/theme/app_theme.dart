@@ -15,23 +15,27 @@ class AppTheme {
       elevation: 0,
     ),
 
+    // TextButton Theme
+    textButtonTheme:
+        TextButtonThemeData(style: TextButton.styleFrom(primary: colorPrimary)),
+
     /// si después queremos agregar más propiedades a los widgeds como
     /// botones, input, etc, lo podemos hacer aquí
   );
 
   // podemos hacer un dark theme
   static final ThemeData darkTheme = ThemeData.dark().copyWith(
-    // color primario
-    primaryColor: colorPrimary,
+      // color primario
+      primaryColor: colorPrimary,
 
-    // app bar theme
-    appBarTheme: const AppBarTheme(
-      color: colorPrimary,
-      elevation: 0,
-    ),
-    scaffoldBackgroundColor: Colors.black
+      // app bar theme
+      appBarTheme: const AppBarTheme(
+        color: colorPrimary,
+        elevation: 0,
+      ),
+      scaffoldBackgroundColor: Colors.black
 
-    /// si después queremos agregar más propiedades a los widgeds como
-    /// botones, input, etc, lo podemos hacer aquí
-  );
+      /// si después queremos agregar más propiedades a los widgeds como
+      /// botones, input, etc, lo podemos hacer aquí
+      );
 }
