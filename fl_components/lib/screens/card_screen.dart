@@ -21,8 +21,13 @@ class CardScreen extends StatelessWidget {
           // card widget, son parecidas a los item del recycler view
           CustomCardType1(),
           // ponemos una separación
-          SizedBox(height: 10),
-          CustomCardType2()
+          SizedBox(height: 15),
+          CustomCardType2(),
+          SizedBox(height: 15),
+          CustomCardType2(),
+          SizedBox(height: 15),
+          CustomCardType2(),
+          SizedBox(height: 100),
         ],
       ),
     );

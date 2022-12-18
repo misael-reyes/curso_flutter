@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const Color colorPrimary = Colors.red;
+  static const Color colorPrimary = Colors.orange;
 
   static final ThemeData ligthTheme = ThemeData.light().copyWith(
     // color primario
