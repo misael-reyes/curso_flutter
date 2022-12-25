@@ -19,8 +19,21 @@ class AppTheme {
     textButtonTheme:
         TextButtonThemeData(style: TextButton.styleFrom(primary: colorPrimary)),
 
-    /// si después queremos agregar más propiedades a los widgeds como
-    /// botones, input, etc, lo podemos hacer aquí
+    // FloatingActionButton Theme
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: colorPrimary,
+      elevation: 5,
+    ),
+
+    // ElevetedButton Theme
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        // nos recomiendan usar backgroundColor en vez de primary
+        backgroundColor: colorPrimary,
+        shape: const StadiumBorder(),
+        elevation: 0,
+      ),
+    ),
   );
 
   // podemos hacer un dark theme

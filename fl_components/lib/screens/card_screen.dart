@@ -27,13 +27,13 @@ class CardScreen extends StatelessWidget {
                 'https://www.solofondos.com/wp-content/uploads/2015/04/Fondos-de-paisajes.jpg',
             nameImage: 'paisaje',
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 20),
           CustomCardType2(
             imageUrl:
                 'https://i.pinimg.com/originals/21/0d/ac/210dac8eccff851d9cb23f5d2b0e0e02.jpg',
             nameImage: 'setup',
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 20),
           CustomCardType2(
               imageUrl:
                   'https://www.solofondos.com/wp-content/uploads/2015/04/Fondos-de-paisajes.jpg'),
