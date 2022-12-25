@@ -40,6 +40,11 @@ class AppRoutes {
         name: 'Card Screen',
         screen: const CardScreen(),
         icon: Icons.account_balance_rounded),
+    MenuOption(
+        route: 'avatar',
+        icon: Icons.supervised_user_circle_outlined,
+        name: 'Avatar Screen',
+        screen: const AvatarScreen()),
   ];
 
   // las demás rutas
