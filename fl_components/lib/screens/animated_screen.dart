@@ -45,7 +45,10 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
         title: const Text('Animated Container'),
       ),
       body: Center(
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 400),
+          //curve: Curves.bounceOut,
+          curve: Curves.easeOutCubic,
           // no puedo tener color y decoraton al mismo tiempo, tiene que ser solo uno
           //color: Colors.red,
           width: _width,
