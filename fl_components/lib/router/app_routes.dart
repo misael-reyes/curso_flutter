@@ -45,6 +45,11 @@ class AppRoutes {
         icon: Icons.supervised_user_circle_outlined,
         name: 'Avatar Screen',
         screen: const AvatarScreen()),
+    MenuOption(
+        route: 'animated', 
+        icon: Icons.play_circle_outline, 
+        name: 'Animated Screen', 
+        screen: const AnimatedScreen()),
   ];
 
   // las demás rutas
