@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fl_components/widgets/widgets.dart';
 
 class InputsScreen extends StatelessWidget {
   const InputsScreen({Key? key}) : super(key: key);
@@ -16,44 +17,13 @@ class InputsScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
-            children: [
-              // se recomienda usar el siguiente widget para formularios
-              TextFormField(
-                // esto es para ya tener el puntero sobre el textformfield
-                autofocus: false,
-                initialValue: '',
-                // esto pone el teclado en mayúscula antes de cada palabra
-                textCapitalization: TextCapitalization.words,
-                // capturamos el evento cada que una tecla del teclado se precione
-                onChanged: (value) {
-                  print('value $value');
-                },
-                validator: (value) {
-                  if (value == null) return 'Este campo es obligatorio';
-                  return value.length < 3 ? 'Minimo tres' : null;
-                },
-                //autovalidateMode: AutovalidateMode.always,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: const InputDecoration(
-                  hintText: 'Nombre del usuario',
-                  labelText: 'Nombre',
-                  helperText: 'Solo letras',
-                  counterText: 'Tres caracteres',
-                  prefixIcon: Icon(Icons.usb_rounded),
-                  suffixIcon: Icon(Icons.group),
-                  icon: Icon(Icons.admin_panel_settings),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.green,
-                    ),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
-                  ),
-                ),
+            children: const [
+              /// como vamos a usar varios TextFormField, es mejor crear nuestro
+              /// propio Widget para poder personalizarlo de la misma maneras que
+              /// el resto
+              CustomImputField(
+                labelText: 'Nombre',
+                hintText: 'Nombre de usuario',
               )
             ],
           ),

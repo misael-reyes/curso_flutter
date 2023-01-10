@@ -34,6 +34,42 @@ class AppTheme {
         elevation: 0,
       ),
     ),
+
+    /// como es muy tedioso configurar uno por uno el estilo de los imputs text, aqui haremos
+    /// una configuración global para aplicarla a todos nuestros inputs
+    inputDecorationTheme: const InputDecorationTheme(
+      floatingLabelStyle: TextStyle(color: colorPrimary),
+
+      // enabled es para cuando esté seleccionado
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: colorPrimary,
+        ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+      ),
+
+      // focus es para cuando el puntero esté sobre el input
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: colorPrimary,
+        ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+      ),
+
+      // general
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+      ),
+    ),
   );
 
   // podemos hacer un dark theme
