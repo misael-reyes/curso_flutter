@@ -50,6 +50,11 @@ class AppRoutes {
         icon: Icons.play_circle_outline,
         name: 'Animated Screen',
         screen: const AnimatedScreen()),
+    MenuOption(
+        route: 'inputs',
+        icon: Icons.input_outlined,
+        name: 'Inputs Screen',
+        screen: const InputsScreen())
   ];
 
   // las demás rutas
