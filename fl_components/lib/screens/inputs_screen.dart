@@ -22,9 +22,24 @@ class InputsScreen extends StatelessWidget {
               /// propio Widget para poder personalizarlo de la misma maneras que
               /// el resto
               CustomImputField(
-                labelText: 'Nombre',
-                hintText: 'Nombre de usuario',
-              )
+                  labelText: 'Nombre', hintText: 'Nombre de usuario'),
+              SizedBox(height: 30),
+
+              CustomImputField(
+                  labelText: 'Apellido', hintText: 'Apellido de usuario'),
+              SizedBox(height: 30),
+
+              CustomImputField(
+                  labelText: 'Correo',
+                  hintText: 'Correo del usuario',
+                  textInputType: TextInputType.emailAddress),
+              SizedBox(height: 30),
+
+              CustomImputField(
+                  labelText: 'Contraseña',
+                  hintText: 'Contraseña del usuario',
+                  isPassword: true),
+              SizedBox(height: 30),
             ],
           ),
         ),

@@ -9,16 +9,20 @@ class CustomImputField extends StatelessWidget {
   final String? counterTex;
   final IconData? suffixIcon;
   final IconData? icon;
+  final TextInputType? textInputType;
+  final bool isPassword;
 
-  const CustomImputField({
-    Key? key,
-    this.hintText,
-    this.labelText,
-    this.helperText,
-    this.counterTex,
-    this.suffixIcon,
-    this.icon,
-  }) : super(key: key);
+  const CustomImputField(
+      {Key? key,
+      this.hintText,
+      this.labelText,
+      this.helperText,
+      this.counterTex,
+      this.suffixIcon,
+      this.icon,
+      this.textInputType,
+      this.isPassword = false,})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,10 @@ class CustomImputField extends StatelessWidget {
       initialValue: '',
       // esto pone el teclado en mayúscula antes de cada palabra
       textCapitalization: TextCapitalization.words,
+      // tipo de teclado para el campo
+      keyboardType: textInputType,
+      // ocultar el texto como la contraseña
+      obscureText: isPassword,
       // capturamos el evento cada que una tecla del teclado se precione
       onChanged: (value) {
         print('value $value');
