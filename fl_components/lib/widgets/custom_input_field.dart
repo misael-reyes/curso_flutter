@@ -12,17 +12,17 @@ class CustomImputField extends StatelessWidget {
   final TextInputType? textInputType;
   final bool isPassword;
 
-  const CustomImputField(
-      {Key? key,
-      this.hintText,
-      this.labelText,
-      this.helperText,
-      this.counterTex,
-      this.suffixIcon,
-      this.icon,
-      this.textInputType,
-      this.isPassword = false,})
-      : super(key: key);
+  const CustomImputField({
+    Key? key,
+    this.hintText,
+    this.labelText,
+    this.helperText,
+    this.counterTex,
+    this.suffixIcon,
+    this.icon,
+    this.textInputType,
+    this.isPassword = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
