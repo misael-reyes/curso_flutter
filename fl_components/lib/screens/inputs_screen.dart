@@ -34,24 +34,38 @@ class InputsScreen extends StatelessWidget {
                 /// como vamos a usar varios TextFormField, es mejor crear nuestro
                 /// propio Widget para poder personalizarlo de la misma maneras que
                 /// el resto
-                const CustomImputField(
-                    labelText: 'Nombre', hintText: 'Nombre de usuario'),
+                CustomImputField(
+                  labelText: 'Nombre',
+                  hintText: 'Nombre de usuario',
+                  formProperty: 'first_name',
+                  formValues: formValues,
+                ),
                 const SizedBox(height: 30),
 
-                const CustomImputField(
-                    labelText: 'Apellido', hintText: 'Apellido de usuario'),
+                CustomImputField(
+                  labelText: 'Apellido',
+                  hintText: 'Apellido de usuario',
+                  formProperty: 'last_name',
+                  formValues: formValues,
+                ),
                 const SizedBox(height: 30),
 
-                const CustomImputField(
-                    labelText: 'Correo',
-                    hintText: 'Correo del usuario',
-                    textInputType: TextInputType.emailAddress),
+                CustomImputField(
+                  labelText: 'Correo',
+                  hintText: 'Correo del usuario',
+                  textInputType: TextInputType.emailAddress,
+                  formProperty: 'email',
+                  formValues: formValues,
+                ),
                 const SizedBox(height: 30),
 
-                const CustomImputField(
-                    labelText: 'Contraseña',
-                    hintText: 'Contraseña del usuario',
-                    isPassword: true),
+                CustomImputField(
+                  labelText: 'Contraseña',
+                  hintText: 'Contraseña del usuario',
+                  isPassword: true,
+                  formProperty: 'password',
+                  formValues: formValues,
+                ),
                 const SizedBox(height: 30),
 
                 ElevatedButton(
@@ -61,6 +75,9 @@ class InputsScreen extends StatelessWidget {
                       print('el fomulario no es valido');
                       return;
                     }
+
+                    //* imprimir los valores del formulario
+                    print(formValues);
 
                     // de mientras ocultamos el teclado
                     FocusScope.of(context).requestFocus(FocusNode());

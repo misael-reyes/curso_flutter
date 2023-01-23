@@ -12,6 +12,11 @@ class CustomImputField extends StatelessWidget {
   final TextInputType? textInputType;
   final bool isPassword;
 
+  // propiedad a la que apuntara el formulario
+  final String formProperty;
+  // es el formulario que yo quiero manejar
+  final Map<String, String> formValues;
+
   const CustomImputField({
     Key? key,
     this.hintText,
@@ -22,6 +27,8 @@ class CustomImputField extends StatelessWidget {
     this.icon,
     this.textInputType,
     this.isPassword = false,
+    required this.formProperty,
+    required this.formValues,
   }) : super(key: key);
 
   @override
@@ -38,7 +45,7 @@ class CustomImputField extends StatelessWidget {
       obscureText: isPassword,
       // capturamos el evento cada que una tecla del teclado se precione
       onChanged: (value) {
-        print('value $value');
+        formValues[formProperty] = value;
       },
       validator: (value) {
         if (value == null) return 'Este campo es obligatorio';
