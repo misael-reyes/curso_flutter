@@ -54,7 +54,12 @@ class AppRoutes {
         route: 'inputs',
         icon: Icons.input_outlined,
         name: 'Inputs Screen',
-        screen: const InputsScreen())
+        screen: const InputsScreen()),
+    MenuOption(
+        route: 'slider',
+        icon: Icons.account_tree_sharp,
+        name: 'Slider Screen',
+        screen: const SliderScreen())
   ];
 
   // las demás rutas
