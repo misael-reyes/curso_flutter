@@ -59,7 +59,12 @@ class AppRoutes {
         route: 'slider',
         icon: Icons.account_tree_sharp,
         name: 'Slider Screen',
-        screen: const SliderScreen())
+        screen: const SliderScreen()),
+    MenuOption(
+        route: 'listviewbuilder',
+        icon: Icons.list,
+        name: "ListView Builder",
+        screen: const ListViewBuilderScreen())
   ];
 
   // las demás rutas

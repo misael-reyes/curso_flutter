@@ -58,17 +58,17 @@ class _SliderScreenState extends State<SliderScreen> {
 
           Switch(
               value: _sliderEnabled,
-              onChanged: (value) => setState(() { _sliderEnabled = value; })
-          ),
+              onChanged: (value) => setState(() {
+                    _sliderEnabled = value;
+                  })),
 
           SwitchListTile(
-            title: const Text('Habilitar Slider'),
-            activeColor: AppTheme.colorPrimary,
-            value: _sliderEnabled, 
-            onChanged: (value) => setState(() {
-              _sliderEnabled = value;
-            })
-          ),
+              title: const Text('Habilitar Slider'),
+              activeColor: AppTheme.colorPrimary,
+              value: _sliderEnabled,
+              onChanged: (value) => setState(() {
+                    _sliderEnabled = value;
+                  })),
 
           // con esto se muestran todas las licencias que nuestra aplicacion esta usando
           const AboutListTile(),
