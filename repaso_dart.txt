@@ -1,0 +1,283 @@
+INTRODUCCIÓN A DART
+
+
+TIPOS DE DATOS - NÚMEROS Y STRINGS
+
+Dart nos permite tipado dinamico
+
+// String
+var nombre = 'Tony';
+var apellido = 'Stark';
+
+Dart igual nos permite el tipado estricto como java, esto es lo más recomendable
+
+//String
+String nombre = 'Tony';
+String apellido = 'Stark';
+
+//String
+final String nombre = 'Tony';
+const apellido = 'Stark';
+
+//numeros
+int empleado = 12;
+double salario = 23.2;
+
+Diferencia entre const y final: 
+en Dart una const nunca va a cambiar su valor en tiempo de compilación, en cambio
+un final no va a cambiar su valor en tiempo de ejecución
+
+//booleano
+bool isActive = true;
+bool? isActive = null; significa que puede ser null
+
+que es el null-safety? signifnica que una variable que declaremos jamas va poder ser null, a menos que nosotros lo especifiquemos
+
+if ( isActive == null ) {
+    //...
+}
+
+
+LISTAS EN DART (arreglos)
+
+List numeros = [1,2,3];
+List numeros = [];
+
+podemos agregar distintos tipos de datos en la llista porque es de tipo dynamic, al menos que indiquemos lo contrario
+numeros.add(11);
+numeros.add('hola mundo');
+
+ahora solo aceptara solo numeros enteros
+List<int> numeros = [1,2,3];
+
+numeros[3]; acceder a un elemento
+
+esto nos creara una lista del 0 al 99
+final masNumeros = List.generate(100, (int index) => index);
+
+
+TIPO DE DATO MAP EN DART
+
+// Map<dynamci, dynamic> podemos poner los tipos de datos que queremos, por ejemplo Map<String, int>
+Map persona = {
+    'nombre' : 'Misael',
+    'edad' : 35,
+    'soltero': false
+};
+
+para acceder hacemos esto:
+persona['nombre'];
+
+anadir
+persona.addAll({'apellido':'juan'})
+
+
+FUNCIONES EN DART
+
+esto es valido y nos dice que se puede retornar cualquier cosa
+saludar() {
+    //
+}
+es lo mismo que
+dynamic saludar() {
+    //
+}
+si no queremos que retorne nada, es buena practica colocar un void
+void saludar() {
+    //
+}
+
+si queremos parametros opcionales debemos hacer lo siguiente:
+esta es una forma, si no le pasamos un nombre, por defector pondra no name
+void saludar([String nombre = 'no name']) { }
+//parametro obligatorio y opcional
+void saludar(String nombre, [String mensaje = 'Hola']) { }
+los ejemplos de arriba son parametros posicionales, es decir, tenemos que pasar los argumentos en el orden que los pide la funcion
+
+//asi indicamos que puede ser en cualquier orden
+que pasa si no mandamos nombre? entones nombre seria null y eso no esta permitido, es por eso que
+tenemos que poner un valor por defecto, lo mismo con mensaje, pero de otra forma
+
+void saludar2( { String nombre = 'No name', String? mensaje } ) { }
+para llamar a la funcion seria algo asi
+saludar2(
+    mensaje: 'Hola',
+    nombre: 'Misael'
+)
+
+si queremos que nuestra funcion sea con parametros requeridos pero en distinto orden, hacemos esto
+void saludar({
+    required String nombre,
+    required String mensaje
+}) {
+    //
+}
+
+CLASES EN DART
+
+class Heroe {
+    //
+}
+
+para hacer una instancia de Heroe lo podemos hacer de dos formas
+= new Heroe();
+= Heroe();
+
+wolverrin.nombre = ''; //asi accedemos a sus atributos
+
+el @override es opcional, pero es buena practica ponerlo
+
+el constructor en dart es algo asi, hay muchas maneras pero la forma corta y recomendable es la siguiente
+
+si no especificamos String? como tipo de datos para el nombre y el poder, entocnes nos maracara error si no pasamos parametros
+
+String nombre;
+String poder;
+
+Heroe( { 
+    required this.nombre, 
+    required this.poder 
+} );
+
+colocar un ! despues de una variable significa que le decimos a dart, confia en mi que yo se que dicha variable no es null
+
+en dart no hay sobreescritura de constructores, en su lugar tenemos constructores con nombre;
+
+String nombre;
+String poder;
+
+Heroe.fromJson(Map<String, String> json) {
+    this.nombre = json['nombre']!;
+    this.poder = json['poder'] ?? 'no tiene poder';
+}
+
+el codigo de arriba esta mal, primero nombre y poder no pueden ser null, entonces al momento de iniciarlizarlos
+tenemos que poner ! y ?? por que no sabemos si esos valores existen, pareciera que todo bien pero no, ya que lo que
+esta dentro del constructor se ejecuta despues de hacer la instancia, y el erro nos dice que las variables se tiene que iniciarlizar
+en le momento de crear la instancia, el codigo de arriba estaria perfecto si los tipos serian String? pero no es el caso, entonces
+hacemos lo siguiente
+
+Heroe.fromJson(Map<String, String> json) :
+    this.nombre = json['nombre']!,
+    this.poder = json['poder'] ?? 'no tiene poder';
+
+los dos puntos significa que todo lo lo que esta despues se ejecuta en el momento en el que se hace la instancia
+
+GETTER EN DART
+
+double get area {
+    return this.lado * this.lado;
+}
+
+y se llama asi
+cuadrado.area
+
+si nos damos cuenta, se pone la palabra reservada get y no se usan los parentecis, y se llama como 
+cualquier otra propiedad de la clase
+
+SETTER EN DART
+
+set area(double valor) {
+    //
+}
+
+asi lo llamamos
+cuadrado.area = 20;
+
+
+CLASES ABSTRACTAS EN DART
+
+abstrat class Animal {
+    int? patas;
+    
+    void emitirSonido();
+}
+
+asi se implementa
+
+class Perro implements Animal {
+    int? patas;
+
+    void emitirSonido() {
+        //
+    }
+}
+
+
+EXTENDS EN DART
+
+lo mismo que java, para usar se hace
+
+abstrat class Personaje {
+    String? poder;
+    String nombre;
+
+    Personaje(this.nombre);
+}
+
+class Heroe extends Personaje {
+    Heroe(String nombre) : super(nombre);
+}
+
+
+MIXINS EN DART
+
+es propio en dart.
+
+con la palabra reservada with identificamos a los mixins
+
+class Delfin extends Mamifero with Nadador {
+    //
+}
+
+podemos agregar mas de un mixins
+
+class Murcielago extends Mamifero with Caminante, Volador {
+    //
+}
+
+delfin.nadar();
+murcielago.caminar();
+murcielago.volar();
+
+
+FUTURES EN DART
+
+es una tarea asincrona, ya viene integrado en dart
+
+Future httpGet(String url) {
+    return Future.delayed( Duration( seconds: 3 ), ( ) {
+        return 'hola mundo';
+    });
+}
+
+tambien podemos indicar que tipo de dato retornara, por ejemplo
+Future<String> httpGet(String url) { }
+
+asi lo llamammos
+
+httpGet('https://api.nasa/com/aliens').then( (data) {
+    //
+});
+
+then es para indicar lo que queremos que se ejecute despues de resolver el Future, es decir,
+lo que nos retorno la peticion
+
+entonces, un Feature no es mas que una tarea que se ejecuta en otro hilo, se hace de manera asincrona
+
+
+ASYNC - AWAIT EN DART
+
+trabajan de la mano con Future
+
+Future<String> getNombre(String id) async {
+    //
+}
+
+un metodo marcado como async, siempre devuelve un Future
+
+final nombre await getNombre('10');
+
+el await solo se puede usar dentro de un metodo async
+
+tenemos el resultado sincrono pero con una funcion asincrona
