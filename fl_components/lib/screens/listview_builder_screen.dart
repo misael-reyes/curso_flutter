@@ -59,6 +59,18 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
         curve: Curves.fastOutSlowIn);
   }
 
+  Future<void> onRefresh() async {
+    await Future.delayed(const Duration(seconds: 2)); // esperamos dos segundos
+
+    final lastId = imagesIds.last;
+
+    // purgamos el listado
+    imagesIds.clear();
+
+    imagesIds.add(lastId + 1);
+    add5();
+  }
+
   @override
   Widget build(BuildContext context) {
     //
@@ -73,23 +85,29 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
         child: Stack(
           // envolvemos el listview.builder dentro de un stack porque queremos poner un widget ensima de otro
           children: [
-            ListView.builder(
-              // esto es para eliminar lo blanco de abajo de scroll
-              physics: const BouncingScrollPhysics(),
-              // controlador para obtener la ubicacion de las imagenes
-              controller: scrollController,
-              itemCount: imagesIds.length,
-              itemBuilder: (BuildContext context, int index) {
-                return FadeInImage(
-                    width: double.infinity,
-                    height: 300,
-                    // toma todo el espacio que tiene la imagen
-                    fit: BoxFit.cover,
-                    // al cargar la imagen
-                    placeholder: const AssetImage('assets/loading.gif'),
-                    image: NetworkImage(
-                        'https://picsum.photos/500/300?image=${imagesIds[index]}'));
-              },
+            // widget para hacer un refresh al momenot de llegar al top de la lista
+            RefreshIndicator(
+              color: AppTheme.colorPrimary,
+              // cuando el Future se termine, entonces se cancelara el refreshindicator
+              onRefresh: onRefresh,
+              child: ListView.builder(
+                // esto es para eliminar lo blanco de abajo de scroll
+                physics: const BouncingScrollPhysics(),
+                // controlador para obtener la ubicacion de las imagenes
+                controller: scrollController,
+                itemCount: imagesIds.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return FadeInImage(
+                      width: double.infinity,
+                      height: 300,
+                      // toma todo el espacio que tiene la imagen
+                      fit: BoxFit.cover,
+                      // al cargar la imagen
+                      placeholder: const AssetImage('assets/loading.gif'),
+                      image: NetworkImage(
+                          'https://picsum.photos/500/300?image=${imagesIds[index]}'));
+                },
+              ),
             ),
             // el positioned nos permite poner un widget en la posicion que queremos
             // no es permitirdo un if con {} porque estamos dentro de un widget
