@@ -1,4 +1,3 @@
-
 import 'package:fl_components/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -49,6 +48,15 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
 
     add5();
     isLoading = false;
+    setState(() {});
+
+    if ((scrollController.position.pixels + 100) <=
+        scrollController.position.maxScrollExtent) return;
+
+    // esto es para mostrar un poco de la siguiente imagen despues de pausar el progress
+    scrollController.animateTo(scrollController.position.pixels + 120,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.fastOutSlowIn);
   }
 
   @override
@@ -84,10 +92,12 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
               },
             ),
             // el positioned nos permite poner un widget en la posicion que queremos
-            Positioned(
-              bottom: 40, 
-              left: size.width * 0.5 + 30, 
-              child: const LoadingIcon())
+            // no es permitirdo un if con {} porque estamos dentro de un widget
+            if (isLoading)
+              Positioned(
+                  bottom: 40,
+                  left: size.width * 0.42,
+                  child: const LoadingIcon())
           ],
         ),
       ),
