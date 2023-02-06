@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peliculas/screens/screens.dart';
+import 'package:peliculas/routes/app_routes.dart';
 
 void main() => runApp(const MyApp());
 
@@ -11,11 +11,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Películas',
-      initialRoute: 'home',
-      routes: {
-        'home': (context) => const HomeScreen(),
-        'details': (context) => const DetailsScreen()
-      },
+      initialRoute: AppRoutes.initialRoute,
+      routes: AppRoutes.routes,
     );
   }
 }
