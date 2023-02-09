@@ -9,8 +9,8 @@ class MovieSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 250,
-      color: Colors.red,
+      height: 300,
+      // color: Colors.red,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -22,6 +22,8 @@ class MovieSlider extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
+
+          const SizedBox(height: 5),
 
           /// lisview.builder nos da un erro porque espera el ancho del padre, pero el padre que es el contenedor es flexible
           /// una solucion seria envolver este lisview en un expanded que toma todo el tamaño que esta disponible
@@ -46,8 +48,37 @@ class _MoviePoster extends StatelessWidget {
     return Container(
       width: 130,
       height: 190,
-      color: Colors.green,
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      // color: Colors.green,
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, 'details', arguments: 'argumentos'),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: const FadeInImage(
+                placeholder: AssetImage('assets/no-image.jpg'), 
+                image: NetworkImage('https://via.placeholder.com/300x400'),
+                width: 130,
+                height: 190,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 5),
+
+          /// si ponemos asi el texto, sin otro atributo, nos saldra la linea 
+          /// amarilla que nos dice que hay elemenos
+          /// que no se pueden renderisar
+          const Text(
+            'StarWars: El retorno del nuevo jedi Silvestre de Monte Cristo',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis, // esto coloca los ...
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
     );
   }
 }
