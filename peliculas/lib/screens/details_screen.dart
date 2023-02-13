@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas/widgets/widgets.dart';
 
 /// vista donde se muestra el detalle de la pelicula
 
@@ -24,7 +25,15 @@ class DetailsScreen extends StatelessWidget {
           const _CustomAppBar(),
           // si queremos meter widgets normales, haremos uso de SliverList
           SliverList(
-              delegate: SliverChildListDelegate([const _PosterAndTitle()]))
+            delegate: SliverChildListDelegate( const [
+              _PosterAndTitle(),
+              _Overview(),
+              _Overview(),
+              _Overview(),
+              CastingCards()
+
+            ])
+          )
         ],
       ),
     );
@@ -32,7 +41,7 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class _CustomAppBar extends StatelessWidget {
-  const _CustomAppBar({super.key});
+  const _CustomAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +58,7 @@ class _CustomAppBar extends StatelessWidget {
         title: Container(
           width: double.infinity,
           alignment: Alignment.bottomCenter,
+          padding: const EdgeInsets.only(bottom: 5),
           // fondo medio transparente
           color: Colors.black12,
           child: const Text(
@@ -123,6 +133,22 @@ class _PosterAndTitle extends StatelessWidget {
           ],
         )
       ]),
+    );
+  }
+}
+
+class _Overview extends StatelessWidget {
+  const _Overview({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      child: Text(
+        'Ex pariatur culpa sunt esse. Ex cupidatat cupidatat veniam aliquip non aute cillum excepteur aliquip velit veniam fugiat. Aliqua sit do cillum Lorem excepteur consectetur. Labore Lorem ut veniam commodo cupidatat id ipsum voluptate ullamco ullamco ea mollit sunt tempor.',
+        textAlign: TextAlign.justify,
+        style: Theme.of(context).textTheme.subtitle1,
+      ),
     );
   }
 }
