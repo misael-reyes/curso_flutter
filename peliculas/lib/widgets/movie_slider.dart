@@ -1,9 +1,14 @@
 // la idea es hacer un widget reutilizable
 
 import 'package:flutter/material.dart';
+import 'package:peliculas/models/models.dart';
 
 class MovieSlider extends StatelessWidget {
-  const MovieSlider({super.key});
+  //
+  final List<Movie> movies;
+  final String? title;
+
+  const MovieSlider({super.key, required this.movies, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +19,22 @@ class MovieSlider extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              'Populares',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          // tambien lo puede validar de esta manera
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   child: title != null ? Text(
+          //     title!,
+          //     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //   ): Container()
+          // ),
+          if (title != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                title!,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )
             ),
-          ),
 
           const SizedBox(height: 5),
 
@@ -30,9 +43,10 @@ class MovieSlider extends StatelessWidget {
           Expanded(
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 20,
+                itemCount: movies.length,
                 // el _MoviePoster son las tarjetas del listview
-                itemBuilder: (_, int index) => const _MoviePoster()),
+                itemBuilder: (_, int index) => _MoviePoster(movie: movies[index])
+            ),
           )
         ],
       ),
@@ -41,7 +55,10 @@ class MovieSlider extends StatelessWidget {
 }
 
 class _MoviePoster extends StatelessWidget {
-  const _MoviePoster({super.key});
+  //
+  final Movie movie;
+
+  const _MoviePoster({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +73,9 @@ class _MoviePoster extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, 'details', arguments: 'argumentos'),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: const FadeInImage(
-                placeholder: AssetImage('assets/no-image.jpg'), 
-                image: NetworkImage('https://via.placeholder.com/300x400'),
+              child: FadeInImage(
+                placeholder: const AssetImage('assets/no-image.jpg'),
+                image: NetworkImage(movie.fullPosterImg),
                 width: 130,
                 height: 190,
                 fit: BoxFit.cover,
@@ -68,11 +85,11 @@ class _MoviePoster extends StatelessWidget {
 
           const SizedBox(height: 5),
 
-          /// si ponemos asi el texto, sin otro atributo, nos saldra la linea 
+          /// si ponemos asi el texto, sin otro atributo, nos saldra la linea
           /// amarilla que nos dice que hay elemenos
           /// que no se pueden renderisar
-          const Text(
-            'StarWars: El retorno del nuevo jedi Silvestre de Monte Cristo',
+          Text(
+            movie.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis, // esto coloca los ...
             textAlign: TextAlign.center,
