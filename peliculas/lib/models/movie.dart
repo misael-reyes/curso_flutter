@@ -33,6 +33,11 @@ class Movie {
   double voteAverage;
   int voteCount;
 
+  get fullPosterImg {
+    if (posterPath != null) return 'https://image.tmdb.org/t/p/w500${this.posterPath}';
+    return 'https://i.stack.imgur.com/GNhxO.png';
+  }
+
   factory Movie.fromJson(String str) => Movie.fromMap(json.decode(str));
 
   factory Movie.fromMap(Map<String, dynamic> json) => Movie(
@@ -51,5 +56,4 @@ class Movie {
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
       );
-
 }

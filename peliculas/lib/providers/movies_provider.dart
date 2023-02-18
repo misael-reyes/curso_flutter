@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 // esto es de la libreria http
 import 'package:http/http.dart' as http;
+import 'package:peliculas/models/models.dart';
 import 'package:peliculas/models/now_playing_response.dart';
 
 /// algunos le ponen de nombre services, pero la idea es que funcione
@@ -15,6 +16,8 @@ class MoviesProvider extends ChangeNotifier {
   String _baseUrl = 'api.themoviedb.org';
   String _apiKey = '59d52311717635a679931ce80df710d6';
   String _language = 'es-ES';
+
+  List<Movie> onDisplayMovies = [];
 
   MoviesProvider() {
     print('Movies provider inicializado');
@@ -31,5 +34,10 @@ class MoviesProvider extends ChangeNotifier {
     // Await the http get response, then decode the json-formatted response.
     final response = await http.get(url);
     final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
+
+    onDisplayMovies = nowPlayingResponse.results;
+
+    // con este metodo avisamo a los widgets que estan escuchando que hubo un cambio en la data
+    notifyListeners();
   }
 }
