@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 // esto es de la libreria http
 import 'package:http/http.dart' as http;
+import 'package:peliculas/models/now_playing_response.dart';
 
 /// algunos le ponen de nombre services, pero la idea es que funcione
 /// como un proveedor de informacion
@@ -29,10 +30,6 @@ class MoviesProvider extends ChangeNotifier {
 
     // Await the http get response, then decode the json-formatted response.
     final response = await http.get(url);
-
-    // convertimos la respuesta en un mapa
-    final Map<String, dynamic> decodedData = json.decode(response.body);
-
-    print(decodedData);
+    final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
   }
 }
