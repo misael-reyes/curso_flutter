@@ -243,7 +243,13 @@ murcielago.volar();
 
 FUTURES EN DART
 
-es una tarea asincrona, ya viene integrado en dart
+*es una tarea asincrona, ya viene integrado en dart
+*Los calculos asincrónos proporcionan su resultado como un Future, si el resultado tiene varias partes, como
+un Stream
+*Un Future representa el resultado de una operación asíncrona y puede tener dos estados:
+incompleto o completado.
+
+si la operación asíncrona realizada por la función falla por algún motivo, el Future se completa con un error
 
 Future httpGet(String url) {
     return Future.delayed( Duration( seconds: 3 ), ( ) {
@@ -269,6 +275,17 @@ entonces, un Feature no es mas que una tarea que se ejecuta en otro hilo, se hac
 ASYNC - AWAIT EN DART
 
 trabajan de la mano con Future
+
+* para definir una función asíncrona se debe agregar async antes del cuerpo de la función
+*el await solo funciona en funciones async
+
+await se usa para esperar a que se complete el Future
+
+se puede usar la palabra clave await para obtener el resultado completo de una expresión asíncrona. La
+palabra await solo funciona dentro de una función async
+
+las palabras claves async y await dan como resultado un código asíncrono que se parece mucho al código
+síncrono
 
 Future<String> getNombre(String id) async {
     //
