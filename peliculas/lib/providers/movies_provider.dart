@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 // esto es de la libreria http
 import 'package:http/http.dart' as http;
@@ -17,39 +19,39 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> onDisplayMovies = [];
   List<Movie> popularMovies = [];
 
+  int _popularPage = 0;
+
   MoviesProvider() {
     getOnDisplayMovies();
     getPopularMovies();
   }
 
-  // funicion para traernos a todas las peliculas que mostraremos
-  getOnDisplayMovies() async {
+  // con los corchetes indicamos que sera opcional pero sin poner el nombre del parametro
+  Future<String> _getJsonData(String endpoint, [int page = 1]) async {
     var url = Uri.https(
         _baseUrl, // dominio
-        '3/movie/now_playing', // segmento
+        endpoint, // segmento
         {'api_key': _apiKey, 'language': _language, 'page': '1'});
 
     // Await the http get response, then decode the json-formatted response.
     final response = await http.get(url);
-    final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
+    return response.body;
+  }
 
+  // funicion para traernos a todas las peliculas que mostraremos
+  getOnDisplayMovies() async {
+    final jsonData = await _getJsonData('3/movie/now_playing');
+    final nowPlayingResponse = NowPlayingResponse.fromJson(jsonData);
     onDisplayMovies = nowPlayingResponse.results;
-
     // con este metodo avisamo a los widgets que estan escuchando que hubo un cambio en la data
     notifyListeners();
   }
 
   // funcion para pedir las peliculas populares
   getPopularMovies() async {
-    var url = Uri.https(
-        _baseUrl, // dominio
-        '3/movie/popular', // segmento
-        {'api_key': _apiKey, 'language': _language, 'page': '1'});
-
-    // Await the http get response, then decode the json-formatted response.
-    final response = await http.get(url);
-    final popularResponse = PopularResponse.fromJson(response.body);
-
+    _popularPage ++;
+    final jsonData = await _getJsonData('3/movie/popular', _popularPage);
+    final popularResponse = PopularResponse.fromJson(jsonData);
     // lo destructuramos
     popularMovies = [...popularMovies, ...popularResponse.results];
 
