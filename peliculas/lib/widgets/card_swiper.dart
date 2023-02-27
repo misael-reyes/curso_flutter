@@ -41,7 +41,7 @@ class CardSwiper extends StatelessWidget {
           // el widget a retornar sera utilizado para renderisar la tarjeta
           // el gesturedetector es para dar evento al clic
           return GestureDetector(
-            onTap: () => Navigator.pushNamed(context, 'details', arguments: 'argumentos'),
+            onTap: () => Navigator.pushNamed(context, 'details', arguments: movie),
             // el cliprrect es para mostrar el border radius
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
