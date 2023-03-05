@@ -5,9 +5,11 @@
 import 'package:flutter/material.dart';
 
 class CastingCards extends StatelessWidget {
-   
-  const CastingCards({Key? key}) : super(key: key);
-  
+  //
+  final int movieId;
+
+  const CastingCards({Key? key, required this.movieId}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,7 +20,7 @@ class CastingCards extends StatelessWidget {
       child: ListView.builder(
         itemCount: 10,
         scrollDirection: Axis.horizontal,
-        itemBuilder: ( _ , int index) {
+        itemBuilder: (_, int index) {
           return const _CastCard();
         },
       ),
@@ -49,9 +51,7 @@ class _CastCard extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-
           const SizedBox(height: 5),
-
           const Text(
             'actor.name sfkdlfjlsf afasdf',
             maxLines: 2,
