@@ -17,6 +17,7 @@ class CastingCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //
+    print("se ejecuta el build del castingcards");
 
     final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
 
@@ -40,10 +41,10 @@ class CastingCards extends StatelessWidget {
           height: 180,
           //color: Colors.red,
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: cast.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (_, int index) {
-              return const _CastCard();
+              return _CastCard(actor: cast[index]);
             },
           ),
         );
@@ -54,7 +55,10 @@ class CastingCards extends StatelessWidget {
 
 // propio widget para mostrar la tarjeta
 class _CastCard extends StatelessWidget {
-  const _CastCard({super.key});
+  //
+  final Cast actor;
+
+  const _CastCard({super.key, required this.actor});
 
   @override
   Widget build(BuildContext context) {
@@ -67,17 +71,17 @@ class _CastCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: const FadeInImage(
-              placeholder: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage('http://via.placeholder.com/150x300'),
+            child: FadeInImage(
+              placeholder: const AssetImage('assets/no-image.jpg'),
+              image: NetworkImage(actor.fullProfilePath),
               height: 140,
               width: 100,
               fit: BoxFit.cover,
             ),
           ),
           const SizedBox(height: 5),
-          const Text(
-            'actor.name sfkdlfjlsf afasdf',
+          Text(
+            actor.originalName,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,

@@ -64,8 +64,10 @@ class MoviesProvider extends ChangeNotifier {
 
   // función asincrona por que será una petición http
   Future<List<Cast>> getMovieCast(int movieId) async {
-    //TODO: revisar el mapa
-    print("pidiendo actores de una pelicula al servidor");
+    // verficamos si esta en memoria
+    if (moviesCast.containsKey(movieId)) return moviesCast[movieId]!;
+
+    print("pidiendo informacion al servidor");
 
     final jsonData = await _getJsonData('3/movie/$movieId/credits');
     final creditsResponse = CreditResponse.fromRawJson(jsonData);
