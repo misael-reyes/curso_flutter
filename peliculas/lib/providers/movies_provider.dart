@@ -85,8 +85,9 @@ class MoviesProvider extends ChangeNotifier {
         {'api_key': _apiKey, 'language': _language, 'query': query});
 
     final response = await http.get(url);
+    
     final searchResponse = SearchResponse.fromRawJson(response.body);
-
+    
     return searchResponse.results;
   }
 }
