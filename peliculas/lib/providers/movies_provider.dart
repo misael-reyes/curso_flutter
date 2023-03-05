@@ -19,6 +19,9 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> onDisplayMovies = [];
   List<Movie> popularMovies = [];
 
+  // <idMovie, ListadoActores>
+  Map<int, List<Cast>> moviesCast = {};
+
   int _popularPage = 0;
 
   MoviesProvider() {
@@ -49,7 +52,7 @@ class MoviesProvider extends ChangeNotifier {
 
   // funcion para pedir las peliculas populares
   getPopularMovies() async {
-    _popularPage ++;
+    _popularPage++;
     final jsonData = await _getJsonData('3/movie/popular', _popularPage);
     final popularResponse = PopularResponse.fromJson(jsonData);
     // lo destructuramos
@@ -57,5 +60,18 @@ class MoviesProvider extends ChangeNotifier {
 
     // con este metodo avisamo a los widgets que estan escuchando que hubo un cambio en la data
     notifyListeners();
+  }
+
+  // función asincrona por que será una petición http
+  Future<List<Cast>> getMovieCast(int movieId) async {
+    //TODO: revisar el mapa
+    print("pidiendo actores de una pelicula al servidor");
+
+    final jsonData = await _getJsonData('3/movie/$movieId/credits');
+    final creditsResponse = CreditResponse.fromRawJson(jsonData);
+
+    moviesCast[movieId] = creditsResponse.cast;
+
+    return creditsResponse.cast;
   }
 }
