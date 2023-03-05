@@ -27,16 +27,14 @@ class DetailsScreen extends StatelessWidget {
           // si queremos meter widgets normales, haremos uso de SliverList
           SliverList(
               delegate: SliverChildListDelegate([
-            _PosterAndTitle(
-                poster: movie.fullPosterImg,
-                title: movie.title,
-                originalTitle: movie.originalTitle,
-                voteAverage: movie.voteAverage),
+            _PosterAndTitle(movie: movie),
             _Overview(overview: movie.overview),
             _Overview(overview: movie.overview),
             _Overview(overview: movie.overview),
             // necesitamos mandar el id de la movie para obtener a sus actores
-            CastingCards(movieId: movie.id,)
+            CastingCards(
+              movieId: movie.id,
+            )
           ]))
         ],
       ),
@@ -89,12 +87,10 @@ class _CustomAppBar extends StatelessWidget {
 
 class _PosterAndTitle extends StatelessWidget {
   //
-  final String poster;
-  final String title;
-  final String originalTitle;
-  final double voteAverage;
+  final Movie movie;
+
   const _PosterAndTitle(
-      {super.key, required this.poster, required this.title, required this.originalTitle, required this.voteAverage});
+      {super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -109,13 +105,13 @@ class _PosterAndTitle extends StatelessWidget {
       margin: const EdgeInsets.only(top: 20),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: FadeInImage(
-              placeholder: const AssetImage('assets/no-image.jpg'),
-              image: NetworkImage(poster),
-              height: 150,
-              width: 110),
+        Hero(
+          tag: movie.heroId!,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: FadeInImage(
+                placeholder: const AssetImage('assets/no-image.jpg'), image: NetworkImage(movie.fullPosterImg), height: 150),
+          ),
         ),
         const SizedBox(
           width: 20,
@@ -128,16 +124,16 @@ class _PosterAndTitle extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                movie.title,
                 style: textTheme.headline5,
-        
+
                 /// esto por si tenemos un titulo muy grande que se nos salga
                 /// por el espacio definido
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
               Text(
-                originalTitle,
+                movie.originalTitle,
                 style: textTheme.subtitle1,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
@@ -147,7 +143,7 @@ class _PosterAndTitle extends StatelessWidget {
                   const Icon(Icons.star_outline, size: 18, color: Colors.grey),
                   const SizedBox(width: 5),
                   Text(
-                    voteAverage.toString(),
+                    movie.voteAverage.toString(),
                     style: textTheme.caption,
                   )
                 ],

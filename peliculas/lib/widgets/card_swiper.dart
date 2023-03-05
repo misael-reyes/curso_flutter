@@ -38,18 +38,24 @@ class CardSwiper extends StatelessWidget {
           //
           final movie = movies[index];
 
+          movie.heroId = 'swiper-${movie.id}';
+
           // el widget a retornar sera utilizado para renderisar la tarjeta
           // el gesturedetector es para dar evento al clic
           return GestureDetector(
             onTap: () => Navigator.pushNamed(context, 'details', arguments: movie),
             // el cliprrect es para mostrar el border radius
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: FadeInImage(
-                placeholder: const AssetImage('assets/loading.gif'),
-                image: NetworkImage(movie.fullPosterImg),
-                // el fit es para adaptar la imagen al tamaño que tiene el contenedor padre
-                fit: BoxFit.cover,
+            child: Hero(
+              // el tag tiene que ser unico
+              tag: movie.heroId!,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: FadeInImage(
+                  placeholder: const AssetImage('assets/loading.gif'),
+                  image: NetworkImage(movie.fullPosterImg),
+                  // el fit es para adaptar la imagen al tamaño que tiene el contenedor padre
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           );

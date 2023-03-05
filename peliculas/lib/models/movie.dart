@@ -33,6 +33,9 @@ class Movie {
   double voteAverage;
   int voteCount;
 
+  // esto es para el Hero
+  String? heroId;
+
   get fullPosterImg {
     if (posterPath != null) return 'https://image.tmdb.org/t/p/w500${this.posterPath}';
     return 'https://i.stack.imgur.com/GNhxO.png';
