@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 // esto es de la libreria http
 import 'package:http/http.dart' as http;
+import 'package:peliculas/helpers/debouncer.dart';
 import 'package:peliculas/models/models.dart';
 import 'package:peliculas/models/search_response.dart';
 
@@ -24,6 +26,13 @@ class MoviesProvider extends ChangeNotifier {
   Map<int, List<Cast>> moviesCast = {};
 
   int _popularPage = 0;
+
+  final debouncer = Debouncer(
+    duration: const Duration(milliseconds: 500)
+  );
+
+  final StreamController<List<Movie>> _suggestionStreamController = StreamController.broadcast();
+  Stream<List<Movie>> get suggestionStream => _suggestionStreamController.stream;
 
   MoviesProvider() {
     getOnDisplayMovies();
@@ -85,9 +94,13 @@ class MoviesProvider extends ChangeNotifier {
         {'api_key': _apiKey, 'language': _language, 'query': query});
 
     final response = await http.get(url);
-    
+
     final searchResponse = SearchResponse.fromJson(response.body);
-    
+
     return searchResponse.results;
+  }
+
+  void getSuggestionsByQuery(String searchTerm) {
+    //
   }
 }
