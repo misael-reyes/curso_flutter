@@ -45,12 +45,7 @@ class MovieSearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty) {
-      //_emptyContainer();
-      return Container(
-        child: const Center(child: Icon(Icons.movie_creation_outlined, color: Colors.black38, size: 130)),
-      );
-      //return Text('query: $query');
-      //return Text('query vacio');
+      return _emptyContainer();
     }
 
     /// gracias a que nuestro provider esta al inicio del arbol, podemos acceder a el desde
@@ -60,7 +55,7 @@ class MovieSearchDelegate extends SearchDelegate {
     return FutureBuilder(
       future: moviesProvider.searchMovies(query),
       builder: (_, AsyncSnapshot<List<Movie>> snapshot) {
-        if (!snapshot.hasData) return Text('snapshot sin datos');
+        if (!snapshot.hasData) return _emptyContainer();
 
         final movies = snapshot.data!;
 

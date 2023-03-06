@@ -19,11 +19,11 @@ class SearchResponse {
   int totalPages;
   int totalResults;
 
-  factory SearchResponse.fromRawJson(String str) => SearchResponse.fromJson(json.decode(str));
+  factory SearchResponse.fromJson(String str) => SearchResponse.fromMap(json.decode(str));
 
-  factory SearchResponse.fromJson(Map<String, dynamic> json) => SearchResponse(
+  factory SearchResponse.fromMap(Map<String, dynamic> json) => SearchResponse(
         page: json["page"],
-        results: List<Movie>.from(json["results"].map((x) => Movie.fromJson(x))),
+        results: List<Movie>.from(json["results"].map((x) => Movie.fromMap(x))),
         totalPages: json["total_pages"],
         totalResults: json["total_results"],
       );
