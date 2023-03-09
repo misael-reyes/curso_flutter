@@ -51,6 +51,7 @@ class MovieSearchDelegate extends SearchDelegate {
     /// gracias a que nuestro provider esta al inicio del arbol, podemos acceder a el desde
     /// cualquier parte de la app
     final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
+    moviesProvider.getSuggestionsByQuery(query);
 
     return StreamBuilder(
       stream: moviesProvider.suggestionStream,
