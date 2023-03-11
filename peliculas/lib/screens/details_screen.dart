@@ -70,7 +70,7 @@ class _CustomAppBar extends StatelessWidget {
           child: Text(
             title,
             style: const TextStyle(fontSize: 16),
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.center
           ),
         ),
         // FadeInImage siempre muestra primero una foto como de carga antes de mostrar la foto real
@@ -89,8 +89,7 @@ class _PosterAndTitle extends StatelessWidget {
   //
   final Movie movie;
 
-  const _PosterAndTitle(
-      {super.key, required this.movie});
+  const _PosterAndTitle({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +109,9 @@ class _PosterAndTitle extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
-                placeholder: const AssetImage('assets/no-image.jpg'), image: NetworkImage(movie.fullPosterImg), height: 150),
+                placeholder: const AssetImage('assets/no-image.jpg'),
+                image: NetworkImage(movie.fullPosterImg),
+                height: 150),
           ),
         ),
         const SizedBox(
