@@ -41,16 +41,24 @@ class MainContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: const [
-        Text('Hola mudno'),
-        Text('Hola mudnsfdsdfsdo'),
-        Text('Hola mudno'),
-        Text('Hola mudno'),
 
-      ],
+    const textStyle = TextStyle(fontSize: 50, fontWeight: FontWeight.bold, color: Colors.white);
+
+    // el SafeArea lo ponermos para quede abajo del menu del dispositivo donde viene la hora
+    return SafeArea(
+      bottom: false,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 40),
+          const Text('11°', style: textStyle),
+          const Text('Miércoles', style: textStyle),
+          Expanded(child: Container()),
+          const Icon(Icons.keyboard_arrow_down, size: 100, color: Colors.white),
+          const SizedBox(height: 40),
+        ],
+      ),
     );
   }
 }
