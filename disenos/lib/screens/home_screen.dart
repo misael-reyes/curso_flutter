@@ -14,9 +14,31 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         children: const [
           // background
-          Background()
+          Background(),
+          // Home body
+          _HomeBody()
         ],
       )
+    );
+  }
+}
+
+class _HomeBody extends StatelessWidget {
+  
+  const _HomeBody({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // si el hijo es mas grande que toda la dimension del dispositivo, me va a permitir hacer scroll
+    return SingleChildScrollView(
+      child: Column(
+        children: const [
+          // Titulos
+          PageTitle()
+        ],
+      ),
     );
   }
 }
