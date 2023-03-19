@@ -6,9 +6,12 @@ class CustomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    int currentIndex = 0;
+
     return BottomNavigationBar(
       // este elemento nos dira cual es el item seleccioado
-      currentIndex: 0,
+      currentIndex: currentIndex,
       elevation: 0,
       items: const <BottomNavigationBarItem>[
         // tenemos que poner por lo menos dos items
