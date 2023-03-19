@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class CardTable extends StatelessWidget {
@@ -17,6 +19,10 @@ class CardTable extends StatelessWidget {
         TableRow(children: [
           _SigleCard(icon: Icons.agriculture, color: Colors.pink, label: 'Shoping'),
           _SigleCard(icon: Icons.account_tree, color: Colors.orange, label:'Bills')
+        ]),
+        TableRow(children: [
+          _SigleCard(icon: Icons.catching_pokemon_sharp, color: Colors.blue, label: 'Entertainment'),
+          _SigleCard(icon: Icons.badge_outlined, color: Colors.green, label: 'Grocery')
         ]),
         TableRow(children: [
           _SigleCard(icon: Icons.catching_pokemon_sharp, color: Colors.blue, label: 'Entertainment'),
@@ -52,20 +58,29 @@ class _SigleCard extends StatelessWidget {
     );
 
     return Container(
-      margin: const EdgeInsets.all(15),
-      height: 180,
-      decoration: boxDecoration,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: color,
-            radius: 30,
-            child: Icon(icon, size: 35, color: Colors.white),
+      margin: const EdgeInsets.all(5),
+      // este widget corta todo lo que salga de su espacio
+      child: ClipRRect (
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Container(
+            height: 180,
+            decoration: boxDecoration,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  backgroundColor: color,
+                  radius: 30,
+                  child: Icon(icon, size: 35, color: Colors.white),
+                ),
+                const SizedBox(height: 20),
+                Text(label, style: TextStyle(color: color, fontSize: 16))
+              ],
+            ),
           ),
-          const SizedBox(height: 20),
-          Text(label, style: TextStyle(color: color, fontSize: 16))
-        ],
+        ),
       ),
     );
   }
