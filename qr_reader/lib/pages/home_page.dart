@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_reader/pages/pages.dart';
+import 'package:qr_reader/providers/ui_provider.dart';
 import 'package:qr_reader/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
@@ -33,8 +35,11 @@ class _HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // el acceso al provider lo tenemos en context, que es nuestro arbol de widgets
 
-    int currentIndex = 0;
+    final uiProvider = Provider.of<UiProvider>(context);
+
+    final currentIndex = uiProvider.selectedMenuOpt;
 
     switch(currentIndex) {
       case 0:
