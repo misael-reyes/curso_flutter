@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/ui_provider.dart';
 
 class CustomNavigationBar extends StatelessWidget {
 
@@ -7,9 +10,13 @@ class CustomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    int currentIndex = 0;
+    final uiProvider = Provider.of<UiProvider>(context);
+
+    final currentIndex = uiProvider.selectedMenuOpt;
 
     return BottomNavigationBar(
+      // llamamos al set selectedMenuOpt
+      onTap: (int indice) => uiProvider.selectedMenuOpt = indice,
       // este elemento nos dira cual es el item seleccioado
       currentIndex: currentIndex,
       elevation: 0,
