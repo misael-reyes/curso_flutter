@@ -10,16 +10,22 @@ String scanModelToJson(ScanModel data) => json.encode(data.toJson());
 
 class ScanModel {
   // propiedades
-  int id;
-  String tipo;
+  int? id;
+  String? tipo;
   String valor;
 
   // constructor
   ScanModel({
-    required this.id,
-    required this.tipo,
+    this.id,
+    this.tipo,
     required this.valor,
-  });
+  }) {
+    if(valor.contains('http')) {
+      tipo = 'http';
+    } else {
+      tipo = 'geo';
+    }
+  }
   
   // esto va a regresar una nueva instancia de la clase
   factory ScanModel.fromJson(Map<String, dynamic> json) => ScanModel(
