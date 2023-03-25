@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_reader/pages/pages.dart';
+import 'package:qr_reader/providers/db_provider.dart';
 import 'package:qr_reader/providers/ui_provider.dart';
 import 'package:qr_reader/widgets/widgets.dart';
 
@@ -14,12 +15,7 @@ class HomePage extends StatelessWidget {
         title: const Text('Historial'),
         centerTitle: true,
         elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {}, 
-            icon: const Icon(Icons.delete_forever)
-          )
-        ],
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.delete_forever))],
       ),
       body: const _HomePageBody(),
       bottomNavigationBar: const CustomNavigationBar(),
@@ -30,7 +26,6 @@ class HomePage extends StatelessWidget {
 }
 
 class _HomePageBody extends StatelessWidget {
-
   const _HomePageBody({super.key});
 
   @override
@@ -41,13 +36,16 @@ class _HomePageBody extends StatelessWidget {
 
     final currentIndex = uiProvider.selectedMenuOpt;
 
-    switch(currentIndex) {
+    // TODO: temporal leer la base de datos
+    DBProvider.db.database;
+
+    switch (currentIndex) {
       case 0:
         return const MapasPage();
 
       case 1:
         return const DireccionesPage();
-      
+
       default:
         return const MapasPage();
     }
