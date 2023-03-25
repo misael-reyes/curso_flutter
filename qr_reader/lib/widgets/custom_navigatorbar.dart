@@ -9,7 +9,6 @@ class CustomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final uiProvider = Provider.of<UiProvider>(context);
 
     final currentIndex = uiProvider.selectedMenuOpt;
@@ -22,14 +21,8 @@ class CustomNavigationBar extends StatelessWidget {
       elevation: 0,
       items: const <BottomNavigationBarItem>[
         // tenemos que poner por lo menos dos items
-        BottomNavigationBarItem(
-          label: 'Mapa',
-          icon: Icon(Icons.map)
-        ),
-        BottomNavigationBarItem(
-          label: 'Direcciones',
-          icon: Icon(Icons.compass_calibration)
-        )
+        BottomNavigationBarItem(label: 'Mapa', icon: Icon(Icons.map)),
+        BottomNavigationBarItem(label: 'Direcciones', icon: Icon(Icons.compass_calibration))
       ],
     );
   }
