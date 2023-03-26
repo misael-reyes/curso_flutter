@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_reader/pages/pages.dart';
+import 'package:qr_reader/providers/scan_list_provider.dart';
 import 'package:qr_reader/providers/ui_provider.dart';
 import 'package:qr_reader/theme/app_theme.dart';
 
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
 
       providers: [
         // esto es parecido a singelton
-        ChangeNotifierProvider(create: ( _ ) => UiProvider())
+        ChangeNotifierProvider(create: ( _ ) => UiProvider()),
+        ChangeNotifierProvider(create: ( _ ) => ScanListProvider())
       ],
 
       child: MaterialApp(
