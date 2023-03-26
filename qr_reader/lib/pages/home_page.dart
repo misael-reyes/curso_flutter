@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_reader/models/scan_model.dart';
 import 'package:qr_reader/pages/pages.dart';
-import 'package:qr_reader/providers/db_provider.dart';
 import 'package:qr_reader/providers/ui_provider.dart';
 import 'package:qr_reader/widgets/widgets.dart';
 
