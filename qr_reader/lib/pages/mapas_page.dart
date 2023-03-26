@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_reader/theme/app_theme.dart';
 
 /// MapasPage retornara un Center y no un scaffol porque
 /// solo necesitamos poner el center en la pagina de home
@@ -11,8 +12,16 @@ class MapasPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Mapas page'),
+    return ListView.builder(
+      itemCount: 10,
+      itemBuilder: ( _ , i) => ListTile(
+        leading: const Icon(Icons.map, color: AppTheme.colorPrimary),
+        title: const Text('http://misadev.com'),
+        subtitle: const Text('ID: 11'),
+        trailing: const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+        // ignore: avoid_print
+        onTap: () => print('se abre algo'),
+      ),
     );
   }
 }
