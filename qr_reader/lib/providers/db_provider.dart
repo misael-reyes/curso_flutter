@@ -78,7 +78,7 @@ class DBProvider {
     return res.isNotEmpty ? ScanModel.fromJson(res.first) : null;
   }
 
-  Future<List<ScanModel>> getAllScan() async {
+  Future<List<ScanModel>> getAllScans() async {
     final db = await database;
     final res = await db.query('Scans');
     return res.isNotEmpty ? res.map((s) => ScanModel.fromJson(s)).toList() : [];
@@ -94,6 +94,20 @@ class DBProvider {
     final db = await database;
     final res =
         await db.update('Scans', scan.toJson(), where: 'id = ?', whereArgs: [scan.id]);
+    return res;
+  }
+  
+  Future<int> deleteScan(int id) async {
+    final db = await database;
+    final res = await db.delete('Scans', where: 'id = ?', whereArgs: [id]);
+    return res;
+  }
+  
+  Future<int> deleteAllScans() async {
+    final db = await database;
+    final res = await db.rawDelete('''
+      DELETE FROM Scans
+    ''');
     return res;
   }
 }
