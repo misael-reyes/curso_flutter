@@ -65,7 +65,7 @@ class DBProvider {
   Future<int> nuevoScan(ScanModel nuevoScan) async {
     // referencia a la base de datos
     final db = await database;
-    
+
     final res = await db.insert('Scans', nuevoScan.toJson());
 
     // el res es el id del ultimo registro insertado
@@ -88,5 +88,12 @@ class DBProvider {
     final db = await database;
     final res = await db.query('Scans', where: 'type = ?', whereArgs: [type]);
     return res.isNotEmpty ? res.map((s) => ScanModel.fromJson(s)).toList() : [];
+  }
+
+  Future<int> updateScan(ScanModel scan) async {
+    final db = await database;
+    final res =
+        await db.update('Scans', scan.toJson(), where: 'id = ?', whereArgs: [scan.id]);
+    return res;
   }
 }
