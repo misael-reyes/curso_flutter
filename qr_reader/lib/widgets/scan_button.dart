@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_reader/providers/scan_list_provider.dart';
 
 class ScanButton extends StatelessWidget {
   const ScanButton({super.key});
@@ -17,8 +19,15 @@ class ScanButton extends StatelessWidget {
           //  false,
           //  ScanMode.QR
           //);
-          final barcodeScanRes = 'https://fernando-herrera.com';
-          print(barcodeScanRes);
+          const barcodeScanRes = 'https://fernando-herrera.com';
+          
+          /// no queremos que se reconstruya este widget (boton) cada que se haga un notifelistener,
+          /// es por eso que ponmos liste: false
+          final scanListProvider = Provider.of<ScanListProvider>(context, listen: false);
+          
+          // insertamos el la BD
+          scanListProvider.nuevoScan(barcodeScanRes);
+          scanListProvider.nuevoScan('geo:23,23');
         });
   }
 }

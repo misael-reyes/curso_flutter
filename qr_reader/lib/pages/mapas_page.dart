@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_reader/providers/scan_list_provider.dart';
 import 'package:qr_reader/theme/app_theme.dart';
 
 /// MapasPage retornara un Center y no un scaffol porque
@@ -12,15 +14,19 @@ class MapasPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    //
+    final scanListProvider = Provider.of<ScanListProvider>(context);
+    final scans = scanListProvider.scans;
+    
     return ListView.builder(
-      itemCount: 10,
+      itemCount: scans.length,
       itemBuilder: ( _ , i) => ListTile(
         leading: const Icon(Icons.map, color: AppTheme.colorPrimary),
-        title: const Text('http://misadev.com'),
-        subtitle: const Text('ID: 11'),
+        title: Text(scans[i].valor),
+        subtitle: Text(scans[i].id.toString()),
         trailing: const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
         // ignore: avoid_print
-        onTap: () => print('se abre algo'),
+        onTap: () => print(scans[i].id),
       ),
     );
   }

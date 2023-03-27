@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_reader/pages/pages.dart';
+import 'package:qr_reader/providers/scan_list_provider.dart';
 import 'package:qr_reader/providers/ui_provider.dart';
 import 'package:qr_reader/widgets/widgets.dart';
 
@@ -34,12 +35,19 @@ class _HomePageBody extends StatelessWidget {
     final uiProvider = Provider.of<UiProvider>(context);
 
     final currentIndex = uiProvider.selectedMenuOpt;
+    
+    /// usar el ScanListProvider
+    /// se establece listen en false en este código porque el widget en cuestión no 
+    /// necesita actualizarse en función de los cambios en el estado del proveedor.
+    final scanListProvider = Provider.of<ScanListProvider>(context, listen: false);
 
     switch (currentIndex) {
       case 0:
+        scanListProvider.cargarScansPorTipo('geo');
         return const MapasPage();
 
       case 1:
+        scanListProvider.cargarScansPorTipo('http');
         return const DireccionesPage();
 
       default:
