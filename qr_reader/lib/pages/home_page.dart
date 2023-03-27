@@ -15,7 +15,19 @@ class HomePage extends StatelessWidget {
         title: const Text('Historial'),
         centerTitle: true,
         elevation: 0,
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.delete_forever))],
+        actions: [
+          IconButton(
+            onPressed: () {
+              /// TIP
+              /// si tenemos que crear una instancia de un provider dentro de un metodo como lo es
+              /// onPressed, el 99% de las veces listen ira en false
+              // eliminamos todos los registros de la BD
+              final scanListProvider = Provider.of<ScanListProvider>(context, listen: false);
+              scanListProvider.borrarTodos();
+            }, 
+            icon: const Icon(Icons.delete_forever)
+          )
+        ],
       ),
       body: const _HomePageBody(),
       bottomNavigationBar: const CustomNavigationBar(),
