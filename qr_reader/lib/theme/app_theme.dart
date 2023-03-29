@@ -9,7 +9,8 @@ class AppTheme {
     primaryColor: colorPrimary,
 
     appBarTheme: const AppBarTheme(
-      color: colorPrimary
+      color: colorPrimary,
+      elevation: 0
     ),
 
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
