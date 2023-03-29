@@ -20,13 +20,27 @@ class MapasPage extends StatelessWidget {
     
     return ListView.builder(
       itemCount: scans.length,
-      itemBuilder: ( _ , i) => ListTile(
-        leading: const Icon(Icons.map, color: AppTheme.colorPrimary),
-        title: Text(scans[i].valor),
-        subtitle: Text(scans[i].id.toString()),
-        trailing: const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
-        // ignore: avoid_print
-        onTap: () => print(scans[i].id),
+      itemBuilder: ( _ , i) => Dismissible(
+        // UniqueKey se encarga de crear un key unico para nosotros
+        key: UniqueKey(),
+        background: Container(
+          color: Colors.red,
+        ),
+        onDismissed: (DismissDirection direction) {
+          // debemos impactar la base de datos
+          // para que no nos marque error, tenemos que pasar el listen en false,
+          /// ya que no queremos redibujar el widget, ya que estamos fuera del
+          /// arbol de widgets
+          Provider.of<ScanListProvider>(context, listen: false).borrarScanPorId(scans[i].id!);
+        },
+        child: ListTile(
+          leading: const Icon(Icons.map, color: AppTheme.colorPrimary),
+          title: Text(scans[i].valor),
+          subtitle: Text(scans[i].id.toString()),
+          trailing: const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+          // ignore: avoid_print
+          onTap: () => print(scans[i].id),
+        ),
       ),
     );
   }
