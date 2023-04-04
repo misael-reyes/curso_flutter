@@ -13,9 +13,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CounterScreen()
+      theme: ThemeData(
+        /// activamos todos los widgets que soportan material3 para que
+        /// luzcan como material3
+        useMaterial3: true,
+        // flutter nos genera un paleta de colores con colorSchemeSeed
+        colorSchemeSeed: Colors.blue
+      ),
+      home: const CounterScreen()
     );
   }
 }
