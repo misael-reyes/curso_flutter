@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yes_no_app/presentation/widgets/chat/her_message_bubble.dart';
 import 'package:yes_no_app/presentation/widgets/chat/my_message_bubble.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -35,12 +36,15 @@ class _ChatView extends StatelessWidget {
           children: [
             // el expanded permite al widget hijo epandirse a todo el espacio disponible
             Expanded(
+
                 /// el ListView.builder crea el list view cuando se va a mostrar en la pantalla,
                 /// si el item aun no esta en la pantalla no se crea
                 child: ListView.builder(
                     itemCount: 100,
                     itemBuilder: (context, index) {
-                      return const MyMessageBubble();
+                      return (index % 2 == 0)
+                          ? const HerMessageBubble()
+                          : const MyMessageBubble();
                     })),
             const Text('Mundo')
           ],
