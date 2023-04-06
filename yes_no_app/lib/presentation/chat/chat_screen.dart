@@ -12,11 +12,38 @@ class ChatScreen extends StatelessWidget {
         leading: const Padding(
           padding: EdgeInsets.all(4.0),
           child: CircleAvatar(
-            backgroundImage: NetworkImage('https://cachedimages.podchaser.com/256x256/aHR0cHM6Ly9jcmVhdG9yLWltYWdlcy5wb2RjaGFzZXIuY29tLzFiNWYxZjRjODc4MzE2NzlmZWI5NDcyZjg5ZDEwMGJlLmpwZWc%3D/aHR0cHM6Ly93d3cucG9kY2hhc2VyLmNvbS9pbWFnZXMvbWlzc2luZy1pbWFnZS5wbmc%3D'),
+            backgroundImage: NetworkImage(
+                'https://cachedimages.podchaser.com/256x256/aHR0cHM6Ly9jcmVhdG9yLWltYWdlcy5wb2RjaGFzZXIuY29tLzFiNWYxZjRjODc4MzE2NzlmZWI5NDcyZjg5ZDEwMGJlLmpwZWc%3D/aHR0cHM6Ly93d3cucG9kY2hhc2VyLmNvbS9pbWFnZXMvbWlzc2luZy1pbWFnZS5wbmc%3D'),
           ),
         ),
         title: const Text('Megan Fox ❤️'),
         centerTitle: true,
+      ),
+      body: _ChatView(),
+    );
+  }
+}
+
+class _ChatView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          children: [
+            // el expanded permite al widget hijo epandirse a todo el espacio disponible
+            Expanded(
+                /// el ListView.builder crea el list view cuando se va a mostrar en la pantalla,
+                /// si el item aun no esta en la pantalla no se crea
+                child: ListView.builder(
+                    itemCount: 100,
+                    itemBuilder: (context, index) {
+                      return const Text('data');
+                    })),
+            const Text('Mundo')
+          ],
+        ),
       ),
     );
   }
