@@ -40,14 +40,22 @@ class _ImageBubble extends StatelessWidget {
 
     // ClipRRect nos permite hacer bordes redondeados
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Image.network(
+        borderRadius: BorderRadius.circular(20),
+        child: Image.network(
           'https://yesno.wtf/assets/yes/3-422e51268d64d78241720a7de52fe121.gif',
           width: size.width * 0.7,
           height: 150,
           // con boxfit decimos que basado en las dimensiones que le estamos dando coloque la imagen
-          fit: BoxFit.cover,  
-        )
-    );
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              width: size.width * 0.7,
+              height: 150,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: const Text('mi amor esta enviando un mensaje'),
+            );
+          },
+        ));
   }
 }
