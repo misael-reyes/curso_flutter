@@ -24,6 +24,8 @@ class AppTheme {
     return ThemeData(
         // activamos material3
         useMaterial3: true,
-        colorSchemeSeed: _colorThemes[selectedColor]);
+        colorSchemeSeed: _colorThemes[selectedColor],
+        // brightness: Brightness.dark
+    );
   }
 }

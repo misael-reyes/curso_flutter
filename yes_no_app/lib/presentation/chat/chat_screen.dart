@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+
+class ChatScreen extends StatelessWidget {
+  const ChatScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // truco, cada que el widget sea un screen, es mejor retornar un scaffold
+    return Scaffold(
+      appBar: AppBar(
+        // espacio antes del titulo
+        leading: const Padding(
+          padding: EdgeInsets.all(4.0),
+          child: CircleAvatar(
+            backgroundImage: NetworkImage('https://cachedimages.podchaser.com/256x256/aHR0cHM6Ly9jcmVhdG9yLWltYWdlcy5wb2RjaGFzZXIuY29tLzFiNWYxZjRjODc4MzE2NzlmZWI5NDcyZjg5ZDEwMGJlLmpwZWc%3D/aHR0cHM6Ly93d3cucG9kY2hhc2VyLmNvbS9pbWFnZXMvbWlzc2luZy1pbWFnZS5wbmc%3D'),
+          ),
+        ),
+        title: const Text('Megan Fox ❤️'),
+        centerTitle: true,
+      ),
+    );
+  }
+}
