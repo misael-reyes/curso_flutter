@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Material App',
       debugShowCheckedModeBanner: false,
       // aqui especificamos el tema que queremos
-      theme: AppTheme(selectedColor: 6).theme(),
+      theme: AppTheme(selectedColor: 2).theme(),
       home: const ChatScreen()
     );
   }
