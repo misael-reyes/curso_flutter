@@ -7,8 +7,15 @@ class ChatProvider extends ChangeNotifier {
     Message(text: 'Hola amor', fromWho: FromWho.me),
     Message(text: 'Ya regresaste del trabajo?', fromWho: FromWho.me)
   ];
-  
+
   Future<void> sendMessage(String text) async {
-    // TODO: implementar metodo
+    // el mensaje siempre va ser mio
+    final newMessage = Message(text: text, fromWho: FromWho.me);
+
+    // añadamoslo a la lista
+    messageList.add(newMessage);
+
+    // notifiquemos que la lista cambio su contendio
+    notifyListeners();
   }
 }

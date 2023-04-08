@@ -36,6 +36,7 @@ class _ChatView extends StatelessWidget {
     /// referencia a nuestro provider
     /// aqui esta la documentación para hecharle un ojo
     /// https://pub.dev/packages/provider
+    /// (esto quiere decir que este widget esa escuchando los cambios de ChatProvider)
     final chatProvider = context.watch<ChatProvider>();
 
     return SafeArea(
@@ -58,7 +59,12 @@ class _ChatView extends StatelessWidget {
                     })),
 
             // caja de texto de mensaejes
-            const MessageFieldBox()
+            MessageFieldBox(
+              // hay dos formas de hacer lo mismo
+              //onValue: (value) => chatProvider.sendMessage(value)
+              // esto se puede hacer porque los parametros son los mismos, mismo nombre y posición
+              onValue: chatProvider.sendMessage
+            )
           ],
         ),
       ),
