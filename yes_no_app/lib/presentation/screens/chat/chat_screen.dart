@@ -50,6 +50,7 @@ class _ChatView extends StatelessWidget {
                 /// el ListView.builder crea el list view cuando se va a mostrar en la pantalla,
                 /// si el item aun no esta en la pantalla no se crea
                 child: ListView.builder(
+                  controller: chatProvider.chatScrollController,
                     itemCount: chatProvider.messageList.length,
                     itemBuilder: (context, index) {
                       final message = chatProvider.messageList[index];
