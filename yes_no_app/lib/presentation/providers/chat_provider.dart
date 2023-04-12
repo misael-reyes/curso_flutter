@@ -51,5 +51,11 @@ class ChatProvider extends ChangeNotifier {
   // respuesta de ella
   Future<void> herReply() async {
     final herMessage = await getYesNoAnswer.getAnswer();
+
+    // lo agregamos a la lista de mensajes
+    messageList.add(herMessage);
+    // notificamos a los chismosos
+    notifyListeners();
+    moveScrollToBottom();
   }
 }
