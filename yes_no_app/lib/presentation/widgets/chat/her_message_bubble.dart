@@ -28,7 +28,7 @@ class HerMessageBubble extends StatelessWidget {
         const SizedBox(height: 5),
 
         // image
-        _ImageBubble(),
+        _ImageBubble(image: message.imageUrl!),
         const SizedBox(height: 10)
       ],
     );
@@ -36,6 +36,12 @@ class HerMessageBubble extends StatelessWidget {
 }
 
 class _ImageBubble extends StatelessWidget {
+  
+  final String image;
+
+  const _ImageBubble({super.key, required this.image});
+  
+  
   @override
   Widget build(BuildContext context) {
     // esto es para saber las dimensiones del dispositivo en el que se esta ejecutando la app
@@ -45,7 +51,8 @@ class _ImageBubble extends StatelessWidget {
     return ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Image.network(
-          'https://yesno.wtf/assets/yes/3-422e51268d64d78241720a7de52fe121.gif',
+          image,
+          //'https://yesno.wtf/assets/yes/3-422e51268d64d78241720a7de52fe121.gif',
           width: size.width * 0.7,
           height: 150,
           // con boxfit decimos que basado en las dimensiones que le estamos dando coloque la imagen
