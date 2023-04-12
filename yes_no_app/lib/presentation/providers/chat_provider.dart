@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yes_no_app/config/helpers/get_yes_no_answer.dart';
 import 'package:yes_no_app/domain/entities/message.dart';
 
 // ChatProvider notificará cuando haya cambios
@@ -10,6 +11,8 @@ class ChatProvider extends ChangeNotifier {
   /// la idea es que el chatScrollController sea notificado cada que un mensaje nuevo se
   /// envie y asi pueda mostrar el ultimo elemento
   final ScrollController chatScrollController = ScrollController();
+
+  final GetYesNoAnswer getYesNoAnswer = GetYesNoAnswer();
 
   List<Message> messageList = [
     Message(text: 'Hola amor', fromWho: FromWho.me),
@@ -25,6 +28,11 @@ class ChatProvider extends ChangeNotifier {
     // añadamoslo a la lista
     messageList.add(newMessage);
 
+    // tenemos que validar si el mensaje es una pregunta para hacer la peticion
+    if (text.endsWith('?')) {
+      herReply();
+    }
+
     // notifiquemos que la lista cambio su contendio
     notifyListeners();
 
@@ -38,5 +46,10 @@ class ChatProvider extends ChangeNotifier {
         chatScrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut);
+  }
+
+  // respuesta de ella
+  Future<void> herReply() async {
+    final herMessage = await getYesNoAnswer.getAnswer();
   }
 }
