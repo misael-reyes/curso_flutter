@@ -1,6 +1,6 @@
 import 'package:toktik/domain/entities/video_post.dart';
 
-abstract class VideoPostsDatasource {
+abstract class VideoPostDatasource {
   
   Future<List<VideoPost>> getFavoriteVideosByUser( String userID );
   
