@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toktik/config/theme/app_theme.dart';
+import 'package:toktik/infrastructure/datasources/local_video_datasource_impl.dart';
+import 'package:toktik/infrastructure/repositories/video_posts_repository_impl.dart';
 import 'package:toktik/presentation/providers/discover_provider.dart';
 import 'package:toktik/presentation/screens/discover/discover_screen.dart';
 
@@ -11,13 +13,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final videoPostRepository = VideoPostsRepositoryImpl(
+      videosDatasource: LocalVideoDatasource()
+    );
+    
     return MultiProvider(
       providers: [
         // .. operador de cascada, checar el datasheet del curso
         ChangeNotifierProvider(
           // esto es para que en automatico se lance el constructor, desactivamos el perezoso
           lazy: false,
-          create: (_) => DiscoverProvider()..loadNextPage()
+          create: (_) => DiscoverProvider(videosRepository: videoPostRepository)..loadNextPage()
         )
       ],
       child: MaterialApp(
