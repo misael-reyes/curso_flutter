@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:widgets_app/config/menu/menu_items.dart';
+import 'package:widgets_app/presentation/screens/buttons/buttons_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   
@@ -56,7 +57,19 @@ class _CustomListTitle extends StatelessWidget {
       title: Text(menuItem.title),
       subtitle: Text(menuItem.subTitle),
       onTap: () {
-        // TODO: Navegar a otra pantalla
+        /// hay varias formas de navegar entre pantallas, dejo aqui
+        /// una referencia a la documentación que lo explica
+        /// https://docs.flutter.dev/ui/navigation
+        
+        // el codigo de abajo esta bien, pero por el momento usaremos rutas con nombres
+        //Navigator.of(context).push(
+        //  MaterialPageRoute(
+        //    builder: (context) => const ButtonsScreen(),
+        //  ),
+        //);
+        
+        // asi lo hacemos con rutas con nombre que se definieron en el main
+        Navigator.pushNamed(context, menuItem.link);
       },
     );
   }
