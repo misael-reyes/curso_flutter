@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:widgets_app/config/menu/menu_items.dart';
 import 'package:widgets_app/presentation/screens/buttons/buttons_screen.dart';
 
@@ -62,14 +63,20 @@ class _CustomListTitle extends StatelessWidget {
         /// https://docs.flutter.dev/ui/navigation
         
         // el codigo de abajo esta bien, pero por el momento usaremos rutas con nombres
+        // recordar tamien que se puede seguir usando de esta forma aun si estamos usando goRouter
         //Navigator.of(context).push(
         //  MaterialPageRoute(
         //    builder: (context) => const ButtonsScreen(),
         //  ),
         //);
         
+        
         // asi lo hacemos con rutas con nombre que se definieron en el main
-        Navigator.pushNamed(context, menuItem.link);
+        // Navigator.pushNamed(context, menuItem.link);
+        
+        
+        // asi lo hacemos con goRouter
+        context.push(menuItem.link);
       },
     );
   }
