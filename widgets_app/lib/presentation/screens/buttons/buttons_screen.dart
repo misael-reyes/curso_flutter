@@ -81,6 +81,9 @@ class _ButtonsView extends StatelessWidget {
               label: const Text('Text Icon')
             ),
             
+            // custom button
+            const CustomButton(),
+            
             IconButton(onPressed: (){}, icon: const Icon(Icons.u_turn_left_outlined)),
             
             IconButton(
@@ -93,6 +96,39 @@ class _ButtonsView extends StatelessWidget {
             )
             
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  const CustomButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    
+    // recibimos los colores de nuestra paleta de colores
+    final colors = Theme.of(context).colorScheme;
+    
+    /// ClipRRect nos servirá para colocar bordes redondeados
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Material(
+        color: colors.primary,
+        // InkWell es como un detector para tener la función de un button
+        child: InkWell(
+          onTap: (){},
+          splashColor: Colors.green,
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Text(
+              'Hola mundo',
+              style: TextStyle(
+                color: Colors.white
+              ),
+            )
+          ),
         ),
       ),
     );
