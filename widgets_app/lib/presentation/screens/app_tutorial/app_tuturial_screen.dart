@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SlideInfo {
 
   final String title;
-  final String capiton;
+  final String caption;
   final String imageUrl;
 
   // lo ponemos de manera posicional
-  SlideInfo(this.title, this.capiton, this.imageUrl);
+  SlideInfo(this.title, this.caption, this.imageUrl);
 }
 
 final slides = <SlideInfo>[
@@ -25,16 +26,32 @@ class AppTutorialScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        // recordar que esto es para quitar el rebote, asi tenemos lo mismo en ios y android
-        physics: const BouncingScrollPhysics(),
-        children: slides.map(
-          (slideData) => _Slide(
-            title: slideData.title, 
-            capiton: slideData.capiton, 
-            imageUrl: slideData.imageUrl
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+
+          PageView(
+            // recordar que esto es para quitar el rebote, asi tenemos lo mismo en ios y android
+            physics: const BouncingScrollPhysics(),
+            children: slides.map(
+              (slideData) => _Slide(
+                title: slideData.title, 
+                caption: slideData.caption, 
+                imageUrl: slideData.imageUrl
+              )
+            ).toList()
+          ),
+
+          Positioned(
+            right: 20,
+            top: 50,
+            child: TextButton(
+              onPressed: () => context.pop(), 
+              child: const Text('Salir')
+            )
           )
-        ).toList()
+
+        ],
       ),
     );
   }
@@ -43,17 +60,36 @@ class AppTutorialScreen extends StatelessWidget {
 class _Slide extends StatelessWidget {
 
   final String title;
-  final String capiton;
+  final String caption;
   final String imageUrl;
 
   const _Slide({
     required this.title, 
-    required this.capiton, 
+    required this.caption, 
     required this.imageUrl
   });
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+
+    final titleStyle = Theme.of(context).textTheme.titleLarge;
+    final captionStyle = Theme.of(context).textTheme.bodySmall;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image(image: AssetImage(imageUrl)),
+            const SizedBox(height: 20),
+            Text(title, style: titleStyle),
+            const SizedBox(height: 10),
+            Text(caption, style: captionStyle)
+          ],
+        ),
+      ),
+    );
   }
 }
