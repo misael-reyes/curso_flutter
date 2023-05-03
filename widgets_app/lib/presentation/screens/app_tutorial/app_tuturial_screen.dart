@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,11 +18,48 @@ final slides = <SlideInfo>[
   SlideInfo('Disfruta la comida', 'Proident esse nostrud id consectetur dolor.', 'assets/images/3.png'),
 ];
 
-class AppTutorialScreen extends StatelessWidget {
+class AppTutorialScreen extends StatefulWidget {
   
   static const name = 'tutorial_screen';
 
   const AppTutorialScreen({super.key});
+
+  @override
+  State<AppTutorialScreen> createState() => _AppTutorialScreenState();
+}
+
+class _AppTutorialScreenState extends State<AppTutorialScreen> {
+
+  final PageController pageViewController = PageController();
+  bool endReached = false;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // aquí colocaremos el listener a nuestro controller
+    pageViewController.addListener(() { 
+      // imprimimos la pagina actual
+      // print('Pagina actual: ${pageViewController.page}');
+
+      final page = pageViewController.page ?? 0;
+
+      if ( !endReached && page >= ( slides.length - 1.5 ) ) {
+        setState(() => endReached = true);
+      }
+
+    });
+  }
+
+  @override
+  void dispose() {
+    /// es buena practica al usar listeners o controladores, eliminarlos
+    /// en esta etapa de vida del widget para limpiar memoria
+    
+    pageViewController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +69,10 @@ class AppTutorialScreen extends StatelessWidget {
         children: [
 
           PageView(
+            /// usamos un controlador porque él nos dirá cuando nos encontremos en el 
+            /// último slider y asi podremos mostrar un widget, es por eso que la clase 
+            /// AppTutorialScreen la tuvimos que convertir a un StatefulWidget
+            controller: pageViewController,
             // recordar que esto es para quitar el rebote, asi tenemos lo mismo en ios y android
             physics: const BouncingScrollPhysics(),
             children: slides.map(
@@ -49,7 +91,24 @@ class AppTutorialScreen extends StatelessWidget {
               onPressed: () => context.pop(), 
               child: const Text('Salir')
             )
-          )
+          ),
+
+          // la idea es mostrar este boton solo cuando se llegue al final
+          endReached ? 
+            Positioned(
+              bottom: 30,
+              right: 30,
+              // animamos la entrada del boton con la libreria animate_do
+              child: FadeInRight(
+                from: 15,
+                delay: const Duration(milliseconds: 500),
+                child: FilledButton(
+                  onPressed: () => context.pop(), 
+                  child: const Text('Comenzar')
+                ),
+              )
+            )
+          : const SizedBox()
 
         ],
       ),
