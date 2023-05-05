@@ -14,6 +14,33 @@ class InfiniteScrollScreen extends StatefulWidget {
 class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
 
   List<int> imagesIds = [1,2,3,4,5];
+  final ScrollController scrollController = ScrollController();
+  bool isLoading = false;
+  bool isMounted = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController.addListener(() { 
+      // posicion actual
+      final position = scrollController.position.pixels;
+      //posicion maxima que podemos exteneder el scrooll
+      final positionMax = scrollController.position.maxScrollExtent;
+
+      if ((position + 500) >= positionMax) { // llegue al tope
+        // load next page 
+        loadNextPage();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    isMounted = false;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +54,7 @@ class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
         // esto es para el espacio en blanco que deja en Ios
         removeBottom: true,
         child: ListView.builder(
+          controller: scrollController,
           itemCount: imagesIds.length,
           itemBuilder: (context, index) {
             /// recordar que el FadeInImage nos permite cargar una imagen de internet, pero
@@ -46,5 +74,32 @@ class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
         onPressed: () => context.pop(),
       ),
     );
+  }
+
+  void addFiveImages() {
+    final lastId = imagesIds.last;
+
+    imagesIds.addAll(
+      [1,2,3,4,5].map((e) => lastId + e)
+    );
+  }
+
+  Future loadNextPage() async {
+    if (isLoading) return;
+
+    isLoading = true;
+    // redibujamos
+    setState(() {
+      
+    });
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    addFiveImages();
+    isLoading = false;
+
+    // TODO: Revisar si esta montado el componete
+    if(!isMounted) return;
+    setState(() {});
   }
 }
