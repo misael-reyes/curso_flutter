@@ -12,13 +12,22 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      /// ponemos el key porque necesitamos una referencia del scaffol
+      /// esto lo necesitamos porque despues de navegar a una pantalla desde
+      /// el drawer, al regresar no nos tiene que mostrar el menú, en su lugar
+      /// nos debe redireccionar a HomeScreen, es por eso que necesitamos una
+      /// referencia de dicha pantalla
+      key: scaffoldKey,
       appBar: AppBar(
         title: const Text('Flutter + Material 3'),
       ),
       body: const _HomeView(),
       // menu lateral que se oculta y se muestra
-      drawer: const SideMenu()
+      drawer: SideMenu(scaffoldKey: scaffoldKey)
     );
   }
 }
