@@ -33,4 +33,13 @@ class AppTheme {
           centerTitle: true
         )
       );
+
+  // crear una copia del tema actual
+  AppTheme copyWith({
+    int? selectedColorCopy,
+    bool? isDarkmodeCopy
+  }) => AppTheme(
+    selectedColor: selectedColorCopy ?? selectedColor,
+    isDarkMode: isDarkmodeCopy ?? isDarkMode
+  );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:widgets_app/config/theme/app_theme.dart';
 import 'package:widgets_app/presentation/providers/theme_provider.dart';
 
 class ThemeChangerScreen extends ConsumerWidget {
@@ -11,7 +12,9 @@ class ThemeChangerScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final bool isDarkmode = ref.watch( isDarkmodeProvider );
+    // final bool isDarkmode = ref.watch( isDarkmodeProvider );
+    // ahora tengo que estar al pediente de themeNotifierProvider
+    final bool isDarkmode = ref.watch( themeNotifierProvider ).isDarkMode;
 
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +29,10 @@ class ThemeChangerScreen extends ConsumerWidget {
               /// tenemos que colocar el notifier, porque si solo leemos, el valor 
               /// que se retorna es un bool en este caso, por eso al poner notifier 
               /// hacemos referencia al provider
-              ref.read( isDarkmodeProvider.notifier).update((state) => !state);
+              // ref.read( isDarkmodeProvider.notifier).update((state) => !state);
+
+              // ahora estamos usando themeNotifierProvider
+              ref.read(themeNotifierProvider.notifier).toggleDarkmode();
             }
           )
         ],
