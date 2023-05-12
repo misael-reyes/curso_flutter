@@ -24,8 +24,8 @@ class CounterScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: Icon(
-              isDarkmode ? Icons.light_mode_outlined 
-              : Icons.dark_mode_outlined
+              isDarkmode ? Icons.dark_mode_outlined 
+              : Icons.light_mode_outlined
             ),
             onPressed: () {
               /// tenemos que colocar el notifier, porque si solo leemos, el valor 

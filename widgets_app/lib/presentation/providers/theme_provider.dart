@@ -8,3 +8,5 @@ final isDarkmodeProvider = StateProvider<bool>((ref) => false);
 /// Usamos Provider porque será inmutable a diferencia de usar
 /// un StateProvider
 final colorListProvider = Provider((ref) => colorList);
+
+final selectedColorProvider = StateProvider((ref) => 0);

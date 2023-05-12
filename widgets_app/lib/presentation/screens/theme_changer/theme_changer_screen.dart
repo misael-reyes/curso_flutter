@@ -19,14 +19,14 @@ class ThemeChangerScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: Icon(
-              isDarkmode ? Icons.light_mode_outlined 
-              : Icons.dark_mode_outlined
+              isDarkmode ? Icons.dark_mode_outlined 
+              : Icons.light_mode_outlined
             ),
             onPressed: () {
               /// tenemos que colocar el notifier, porque si solo leemos, el valor 
               /// que se retorna es un bool en este caso, por eso al poner notifier 
               /// hacemos referencia al provider
-              // ref.read(isDarkmodeProvider.notifier).state = !isDarkmode;
+              ref.read( isDarkmodeProvider.notifier).update((state) => !state);
             }
           )
         ],
@@ -43,7 +43,12 @@ class _ThemeChangerView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
+    /// se puede colocar un read en ves de watc porque no va a cambiar
+    /// el estado, pero Riverpod recomienda usar el watch, recoredemos 
+    /// que el watch es para decirle que este al pendiente del provedor
     final List<Color> colors = ref.watch(colorListProvider);
+
+    final int selectedColor = ref.watch(selectedColorProvider);
 
     return ListView.builder(
       itemCount: colors.length,
@@ -54,9 +59,9 @@ class _ThemeChangerView extends ConsumerWidget {
           subtitle: Text('${color.value}'),
           activeColor: color,
           value: index,
-          groupValue: 6,
+          groupValue: selectedColor,
           onChanged: (value) {
-            // TODO: notificar el cambio
+            ref.read(selectedColorProvider.notifier).state = index;
           },
         );
       },
