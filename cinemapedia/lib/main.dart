@@ -1,8 +1,19 @@
-import 'package:cinemapedia/config/router/app_router.dart';
-import 'package:cinemapedia/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'package:cinemapedia/config/router/app_router.dart';
+// esta es de la libreria flutter_dotenv para usar el .env
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:cinemapedia/config/theme/app_theme.dart';
+
+Future<void> main() async {
+
+  /// esto es lo que se tiene que hacer para usar el .env
+  /// con eso, tendremos acceso a las variables de entorno en toda
+  /// nuestra app
+  /// https://pub.dev/packages/flutter_dotenv
+  await dotenv.load(fileName: '.env');
+
   runApp(const MainApp());
 }
 
