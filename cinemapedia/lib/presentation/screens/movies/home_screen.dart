@@ -1,4 +1,5 @@
 import 'package:cinemapedia/presentation/providers/movies/movies_providers.dart';
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,14 +46,25 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     // aquí si usamos watch porque necesitamos estar al pendiente de los cambios
     final nowPlayingMovies = ref.watch( nowPlayingMoviesProvider );
 
-    return ListView.builder(
-      itemCount: nowPlayingMovies.length,
-      itemBuilder: (context, index) {
-        final movie = nowPlayingMovies[index];
-        return ListTile(
-          title: Text( movie.title ),
-        );
-      },
+    return Column(
+      children: [
+
+        CustomAppbar(),
+
+        // expanded le da al listview un tamaño específico y evita el error
+        Expanded(
+          child: ListView.builder(
+            itemCount: nowPlayingMovies.length,
+            itemBuilder: (context, index) {
+              final movie = nowPlayingMovies[index];
+              return ListTile(
+                title: Text( movie.title ),
+              );
+            },
+          ),
+        ),
+
+      ],
     );
   }
 }
