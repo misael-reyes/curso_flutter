@@ -49,20 +49,9 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     return Column(
       children: [
 
-        CustomAppbar(),
+        const CustomAppbar(),
 
-        // expanded le da al listview un tamaño específico y evita el error
-        Expanded(
-          child: ListView.builder(
-            itemCount: nowPlayingMovies.length,
-            itemBuilder: (context, index) {
-              final movie = nowPlayingMovies[index];
-              return ListTile(
-                title: Text( movie.title ),
-              );
-            },
-          ),
-        ),
+        MoviesSlideShow(movies: nowPlayingMovies)
 
       ],
     );
