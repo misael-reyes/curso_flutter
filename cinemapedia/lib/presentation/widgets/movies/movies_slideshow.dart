@@ -1,3 +1,5 @@
+
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 import 'package:card_swiper/card_swiper.dart';
@@ -34,6 +36,42 @@ class _Slide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+
+    // la intención de este decoration es dar una sombra a la imagen
+    final decoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black45,
+          blurRadius: 10,
+          offset: Offset(0, 10) // difuminado
+        )
+      ]
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only( bottom: 30 ),
+      child: DecoratedBox(
+        decoration: decoration,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.network(
+            movie.backdropPath,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              /// lo que estamos haciendo aquí es preguanr si aun esta cargando la imagen
+              /// colocams un decoratedbox, caso contrario retornamos el hijo, que es 
+              /// practicamente la imagen
+              if( loadingProgress != null ) {
+                return const DecoratedBox(
+                  decoration: BoxDecoration( color: Colors.black12 ),
+                );
+              }
+              return FadeIn(child: child);
+            },
+          )
+        )
+      ),
+    );
   }
 }
