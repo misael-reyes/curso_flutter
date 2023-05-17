@@ -46,9 +46,10 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   Widget build(BuildContext context) {
 
-    /// aquí si usamos watch porque necesitamos estar al pendiente de los cambios
-    /// necesitamos cambiarlo por nuestro nuevo provider
-    // final nowPlayingMovies = ref.watch( nowPlayingMoviesProvider );
+    // aqui tenemos las 20 peliculas
+    final nowPlayingMovies = ref.watch( nowPlayingMoviesProvider );
+
+    // en este ya estan solo las 6 peliculas
     final slideShowMovies = ref.watch( moviesSlideshowProvider );
 
     return Column(
@@ -59,7 +60,13 @@ class _HomeViewState extends ConsumerState<_HomeView> {
         /// queremos pasar solo 6 peliculas al slider, si decimos que corte el arreglo
         /// marcara un error porque al inicio el arreglo esta vacio, entonces para
         /// solucioar esto decidimos crear un nuevo provider
-        MoviesSlideShow(movies: slideShowMovies)
+        MoviesSlideShow(movies: slideShowMovies),
+
+        MovieHorizontalListview(
+          movies: nowPlayingMovies,
+          title: 'En cines',
+          subTitle: 'Lunes 20'
+        )
 
       ],
     );
