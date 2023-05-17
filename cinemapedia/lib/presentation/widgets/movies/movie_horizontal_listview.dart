@@ -7,8 +7,12 @@ import 'package:flutter/material.dart';
 /// Este widget tiene que ser lo más generico posible, porque en él
 /// vamos a mostrar las peliculas que están en cines, las que
 /// estarán proximamente y cualquier otro tipo de peliculas
+/// 
+/// Queremos implemetar el scroll infinito en este listview, para ello
+/// necesitamos colocar un controlador al listview, es por ello que
+/// convertimos este widget a un statefulwidget
 
-class MovieHorizontalListview extends StatelessWidget {
+class MovieHorizontalListview extends StatefulWidget {
 
   // películas a mostrar
   final List<Movie> movies;
@@ -28,25 +32,58 @@ class MovieHorizontalListview extends StatelessWidget {
   });
 
   @override
+  State<MovieHorizontalListview> createState() => _MovieHorizontalListviewState();
+}
+
+class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
+
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController.addListener(() {
+      if(widget.loadNextPage == null) return;
+
+      // primero necesito saber cual es la posicion actual del scroll y compararla con la maxima
+      final actualPositon = scrollController.position.pixels;
+      final maxPosition = scrollController.position.maxScrollExtent;
+
+      if((actualPositon + 200) >= maxPosition) {
+        widget.loadNextPage!();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // cada que usemos un listener, usemos un dispose
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 350,
       child: Column(
         children: [
 
-          if (title != null || subTitle != null)
-            _Title(title: title, subTitle: subTitle),
+          if (widget.title != null || widget.subTitle != null)
+            _Title(title: widget.title, subTitle: widget.subTitle),
 
           // Expanded(
             //child: Text('holamundo')
           //)
           Expanded(
             child: ListView.builder(
-              itemCount: movies.length,
+              controller: scrollController,
+              itemCount: widget.movies.length,
               scrollDirection: Axis.horizontal,
               // especificamos la fisica para que sea igual en iOS y Android
               physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) => _Slide(movie: movies[index]),
+              itemBuilder: (context, index) => _Slide(movie: widget.movies[index]),
             ),
           )
 
