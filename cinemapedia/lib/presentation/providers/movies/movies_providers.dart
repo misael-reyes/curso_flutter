@@ -22,6 +22,8 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
 
   int currentPage = 0;
   MovieCallBack fetchMoreMovies;
+  // bandera para evitar cargar más de una vez las películas
+  bool isLoading = false;
 
   // establecemos el estado inicial
   MoviesNotifier({
@@ -29,8 +31,15 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
   }) : super([]);
 
   Future<void> loadNextPage() async {
+
+    if( isLoading ) return;
+
+    isLoading = true;
     currentPage ++;
     final List<Movie> movies = await fetchMoreMovies(page: currentPage);
     state = [...state, ...movies];
+    // le damos tiempo para renderisar las peliculas antes de que vuelva hacer la petición
+    await Future.delayed(const Duration(milliseconds: 300));
+    isLoading = false;
   }
 }

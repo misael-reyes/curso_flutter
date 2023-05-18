@@ -73,9 +73,8 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
           if (widget.title != null || widget.subTitle != null)
             _Title(title: widget.title, subTitle: widget.subTitle),
 
-          // Expanded(
-            //child: Text('holamundo')
-          //)
+          const SizedBox(height: 5),
+
           Expanded(
             child: ListView.builder(
               controller: scrollController,
