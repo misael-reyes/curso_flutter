@@ -34,6 +34,9 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     // como estoy dentro de un método, uso read y no watc
     // hacemos la peticion a la API para solicitar las peliculas
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+
+    // solicitamos las peliculas populares
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
   }
 
   @override
@@ -43,6 +46,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
     // en este ya estan solo las 6 peliculas
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
+    final popularMovies = ref.watch(popularMoviesProvider);
 
     // los slivers siempre trabajarán con un CustomScrollView
     return CustomScrollView(
@@ -82,11 +86,11 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                         ref.read(nowPlayingMoviesProvider.notifier).loadNextPage()),
 
                 MovieHorizontalListview(
-                    movies: nowPlayingMovies,
+                    movies: popularMovies,
                     title: 'Populares',
                     // subTitle: 'Lunes 20',
                     loadNextPage: () =>
-                        ref.read(nowPlayingMoviesProvider.notifier).loadNextPage()),
+                        ref.read(popularMoviesProvider.notifier).loadNextPage()),
 
                 MovieHorizontalListview(
                     movies: nowPlayingMovies,

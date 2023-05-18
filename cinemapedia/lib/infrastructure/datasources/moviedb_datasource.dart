@@ -30,8 +30,24 @@ class MovieDbDatasource extends MoviesDatasource {
       }
     );
 
-    final movieDbResponse = MovieDbResponse.fromJson(response.data);
+    return _jsonToMovies(response.data);
+  }
+  
+  @override
+  Future<List<Movie>> getPopular({int page = 1}) async {
     
+    final response = await dio.get(
+      '/movie/popular',
+      queryParameters: {
+        'page': page
+      }
+    );
+
+    return _jsonToMovies(response.data);
+  }
+
+  List<Movie> _jsonToMovies( Map<String, dynamic> json ) {
+    final movieDbResponse = MovieDbResponse.fromJson(json);
     final List<Movie> movies = movieDbResponse.results
     /// validamos si la pelicula tiene un poster o no, si no tine
     /// poste, simplemente lo ignora y no lo coloca en la lista
@@ -39,8 +55,7 @@ class MovieDbDatasource extends MoviesDatasource {
     .map(
       (movieDb) => MovieMapper.movieDBToEntity(movieDb)
     ).toList();
-
     return movies;
-  }
+  } 
 
 }

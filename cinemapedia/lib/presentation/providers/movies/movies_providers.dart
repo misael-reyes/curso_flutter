@@ -15,6 +15,21 @@ final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movi
   );
 });
 
+final popularMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+
+  final fetchMoreMovies = ref.watch( movieRepositoryProvider ).getPopular;
+
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies
+  );
+}); 
+
+
+
+
+
+
+
 typedef MovieCallBack = Future<List<Movie>> Function({ int page });
 
 // clase que controla o que notificará es MoviesNotifier y la data que controla o state es List<Movie>

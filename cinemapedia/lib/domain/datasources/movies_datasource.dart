@@ -6,4 +6,6 @@ abstract class MoviesDatasource {
   // como lucen los origenes de datos
 
   Future<List<Movie>> getNowPlaying({ int page = 1 });
+
+  Future<List<Movie>> getPopular({ int page = 1 });
 }
