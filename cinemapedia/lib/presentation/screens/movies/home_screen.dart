@@ -51,6 +51,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     // en este ya estan solo las 6 peliculas
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
 
+    return const FullScreenLoader();
+
     // los slivers siempre trabajarán con un CustomScrollView
     return CustomScrollView(
         // los slivers son widgets que trabajan con caracteristicas de los scrollview
