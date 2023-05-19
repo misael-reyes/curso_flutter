@@ -33,20 +33,23 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
     // como estoy dentro de un método, uso read y no watc
     // hacemos la peticion a la API para solicitar las peliculas
-    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
 
-    // solicitamos las peliculas populares
+    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
     ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
-    // aqui tenemos las 20 peliculas
+    // colocamos los observadores
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final upcomingMovies = ref.watch(popularMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
     // en este ya estan solo las 6 peliculas
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
-    final popularMovies = ref.watch(popularMoviesProvider);
 
     // los slivers siempre trabajarán con un CustomScrollView
     return CustomScrollView(
@@ -79,11 +82,11 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                         ref.read(nowPlayingMoviesProvider.notifier).loadNextPage()),
 
                 MovieHorizontalListview(
-                    movies: nowPlayingMovies,
+                    movies: upcomingMovies,
                     title: 'Próximamente',
                     subTitle: 'Este mes',
                     loadNextPage: () =>
-                        ref.read(nowPlayingMoviesProvider.notifier).loadNextPage()),
+                        ref.read(upcomingMoviesProvider.notifier).loadNextPage()),
 
                 MovieHorizontalListview(
                     movies: popularMovies,
@@ -93,11 +96,11 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                         ref.read(popularMoviesProvider.notifier).loadNextPage()),
 
                 MovieHorizontalListview(
-                    movies: nowPlayingMovies,
+                    movies: topRatedMovies,
                     title: 'Mejor calificadas',
                     subTitle: 'Desde siempre',
                     loadNextPage: () =>
-                        ref.read(nowPlayingMoviesProvider.notifier).loadNextPage()),
+                        ref.read(topRatedMoviesProvider.notifier).loadNextPage()),
               ],
             );
           }, childCount: 1))
