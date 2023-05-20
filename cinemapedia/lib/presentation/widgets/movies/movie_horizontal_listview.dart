@@ -3,6 +3,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// Este widget tiene que ser lo más generico posible, porque en él
 /// vamos a mostrar las peliculas que están en cines, las que
@@ -165,7 +166,11 @@ class _Slide extends StatelessWidget {
                       ),
                     );
                   }
-                  return FadeIn(child: child);
+                  // Detector de gestos
+                  return GestureDetector(
+                    child: FadeIn(child: child),
+                    onTap: () => context.push('/movie/${ movie.id }')
+                  );
                 },
               ),
             ),

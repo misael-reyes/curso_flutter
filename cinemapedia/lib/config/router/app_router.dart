@@ -9,10 +9,24 @@ import 'package:go_router/go_router.dart';
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
+    
     GoRoute(
       path: '/',
       name: HomeScreen.name,
       builder: (context, state) => const HomeScreen(),
-    )
+
+      // esto lo hacemos para que funcione bien en el navegador web
+      routes: [
+        GoRoute(
+          path: 'movie/:id',
+          name: MovieScreen.name,
+          builder: (context, state) {
+            // obtenemos el id que nos mandan en el path
+            final movieId = state.pathParameters['id'] ?? 'no-id';
+            return MovieScreen(movieId: movieId);
+          },
+        )
+      ]
+    ),
   ]
 );
