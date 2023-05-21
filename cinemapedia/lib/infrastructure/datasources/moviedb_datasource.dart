@@ -3,6 +3,7 @@ import 'package:cinemapedia/config/constants/enviroment.dart';
 import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/infrastructure/mappers/movie_mapper.dart';
+import 'package:cinemapedia/infrastructure/models/moviedb/movie_details.dart';
 import 'package:cinemapedia/infrastructure/models/moviedb/moviedb_response.dart';
 import 'package:dio/dio.dart';
 
@@ -18,6 +19,18 @@ class MovieDbDatasource extends MoviesDatasource {
       }
     )
   );
+
+  List<Movie> _jsonToMovies( Map<String, dynamic> json ) {
+    final movieDbResponse = MovieDbResponse.fromJson(json);
+    final List<Movie> movies = movieDbResponse.results
+    /// validamos si la pelicula tiene un poster o no, si no tine
+    /// poste, simplemente lo ignora y no lo coloca en la lista
+    .where((movieDb) => movieDb.posterPath != 'no-poster')
+    .map(
+      (movieDb) => MovieMapper.movieDBToEntity(movieDb)
+    ).toList();
+    return movies;
+  }
 
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) async {
@@ -72,16 +85,14 @@ class MovieDbDatasource extends MoviesDatasource {
     return _jsonToMovies(response.data);
   } 
 
-  List<Movie> _jsonToMovies( Map<String, dynamic> json ) {
-    final movieDbResponse = MovieDbResponse.fromJson(json);
-    final List<Movie> movies = movieDbResponse.results
-    /// validamos si la pelicula tiene un poster o no, si no tine
-    /// poste, simplemente lo ignora y no lo coloca en la lista
-    .where((movieDb) => movieDb.posterPath != 'no-poster')
-    .map(
-      (movieDb) => MovieMapper.movieDBToEntity(movieDb)
-    ).toList();
-    return movies;
+  @override
+  Future<Movie> getMovieById( String movieId ) async {
+    final response = await dio.get( '/movie/$movieId' );
+    if(response.statusCode != 200) throw Exception('Movie with id $movieId not found');
+
+    final MovieDetails movieDb = MovieDetails.fromJson(response.data);
+
+    return MovieMapper.movieDetailsToEntity(movieDb);
   }
 
 }
