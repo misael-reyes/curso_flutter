@@ -50,8 +50,90 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('MovieID: ${widget.movieId}'),
+      body: CustomScrollView(
+        // con clampingscrollphysics evitamos el rebote que tiene en iOS
+        physics: const ClampingScrollPhysics(),
+        slivers: [
+          _CustomSliverAppBar(movie: movie)
+        ],
+      ),
+    );
+  }
+}
+
+class _CustomSliverAppBar extends StatelessWidget {
+
+  final Movie movie;
+
+  const _CustomSliverAppBar({
+    required this.movie
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    // dimensiones del dispositivo
+    final size = MediaQuery.of(context).size;
+
+    return SliverAppBar(
+      backgroundColor: Colors.black,
+      expandedHeight: size.height * 0.7, // 70% de la pantalla
+      foregroundColor: Colors.white,
+      flexibleSpace: FlexibleSpaceBar(
+        titlePadding: const EdgeInsets.only(left: 5, bottom: 15),
+        //centerTitle: true,
+        title: Text(
+          movie.title,
+          style: const TextStyle(fontSize: 20),
+          textAlign: TextAlign.start,
+        ),
+        background: Stack(
+          children: [
+            // el sizedbox se expandira hasta donde lo permita el padre
+            SizedBox.expand(
+              child: Image.network(
+                movie.posterPath,
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            // implementaremos gradientes para los fondos claros
+            const SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    // stops: empieza en el 70% del sizedBox y termina en el 100%
+                    stops: [0.7, 1.0],
+                    colors: [
+                      Colors.transparent,
+                      Colors.black87
+                    ]
+                  )
+                )
+              ),
+            ),
+
+            // gradiente también para la flecha de arriba
+            const SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    // stops: empieza en el 70% del sizedBox y termina en el 100%
+                    stops: [0.0, 0.3],
+                    colors: [
+                      Colors.black87,
+                      Colors.transparent
+                    ]
+                  )
+                )
+              ),
+            )
+
+          ],
+        ),
       ),
     );
   }
