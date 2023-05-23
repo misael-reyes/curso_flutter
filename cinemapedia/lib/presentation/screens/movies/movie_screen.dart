@@ -34,6 +34,8 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     /// un ontap o una función asi, usamos read en vez de watch, porque no podemo
     /// redibujar un initstate
     ref.read( movieInfoProvider.notifier ).loadMovie(widget.movieId);
+    ref.read( actorsByMovieProvider.notifier ).loadActors(widget.movieId);
+
   }
 
   @override
