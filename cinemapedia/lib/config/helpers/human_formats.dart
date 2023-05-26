@@ -10,10 +10,13 @@ import 'package:intl/intl.dart';
 
 class HumanFormats {
 
-  static String number( double number ) {
+  static String number({ 
+    required double number, 
+    int decimals = 0 
+  }) {
 
     return NumberFormat.compactCurrency(
-      decimalDigits: 0,
+      decimalDigits: decimals,
       symbol: '',
       locale: 'en'
     ).format(number);
