@@ -1,7 +1,9 @@
+import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/delegates/search_movie_delegate.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomAppbar extends ConsumerWidget {
 
@@ -27,17 +29,24 @@ class CustomAppbar extends ConsumerWidget {
               // usamos spacer para que tome todo    el espacio que queda
               const Spacer(),
               IconButton(
-                onPressed: (){
+                onPressed: () {
 
                   final movieRepository = ref.read( movieRepositoryProvider );
 
-                  showSearch(
+                  showSearch<Movie?>(
                     context: context, 
                     // el delegate es el encargado de trabajar la busqueda
                     delegate: SearchMovieDelegate(
                       searchMovies: movieRepository.searchMovies
                     )
-                  );
+                  ).then((movie) {
+                    // we send the user to the other screen
+
+                    /// it is not recommended to place the context after an await
+                    /// that is why we rewrite the code using the function then()
+                    if(movie == null) return;
+                    context.push('/movie/${ movie.id }');
+                  });
                 }, 
                 icon: const Icon(Icons.search)
               )
