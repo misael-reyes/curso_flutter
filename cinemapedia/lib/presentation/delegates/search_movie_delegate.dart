@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
@@ -9,10 +11,28 @@ typedef SearchMoviesCallback = Future<List<Movie>> Function( String query );
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   final SearchMoviesCallback searchMovies;
+  /// we need these objects to solve the problem of performing
+  /// the search every time after a certain period of time.
+  /// 
+  /// If you need a multiple broadcast stream, i.e. several subscribers
+  /// can receive the events at the same time, use StreamController.broadcast().
+  /// If you only need a single broadcast stream, where only one subcriber can be
+  /// active at a time, use StreamController().
+  StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
+  Timer? _debounceTimer;
 
   SearchMovieDelegate({
     required this.searchMovies
   });
+
+  void _onQueryChanged( String query ) {
+    print('query string cambio');
+    if( _debounceTimer?.isActive ?? false ) _debounceTimer!.cancel();
+
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () { 
+      print('buscando  movies');
+    });
+  }
 
   @override
   String? get searchFieldLabel => 'Buscar película';
@@ -51,9 +71,14 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   // buildSuggestions se ejecutara cada que se escribe en el buscador
   @override
   Widget buildSuggestions(BuildContext context) {
+
+    _onQueryChanged(query);
+
     // Necesitamos crear el widget a partir de un Future, por eso usamos FutureBuilder
-    return FutureBuilder(
-      future: searchMovies( query ),
+    // now we change it to a StreamBuilder
+    return StreamBuilder(
+      //future: searchMovies( query ),
+      stream: debouncedMovies.stream,
       builder: (context, snapshot) {
 
         final movies = snapshot.data ?? [];
