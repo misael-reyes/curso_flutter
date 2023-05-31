@@ -25,12 +25,27 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     required this.searchMovies
   });
 
+  void clearStream() {
+    // we close the stream
+    debouncedMovies.close();
+    _debounceTimer?.cancel();
+  }
+
   void _onQueryChanged( String query ) {
-    print('query string cambio');
     if( _debounceTimer?.isActive ?? false ) _debounceTimer!.cancel();
 
-    _debounceTimer = Timer(const Duration(milliseconds: 500), () { 
-      print('buscando  movies');
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () async { 
+      if( query.isEmpty ) {
+        /// we add an event to the stream with StreamController, 
+        /// in this case, we add an empty list because the query
+        /// is empty
+        debouncedMovies.add( [] );
+        return;
+      }
+
+      final movies = await searchMovies( query );
+      // we add other event to the stream
+      debouncedMovies.add( movies );
     });
   }
 
@@ -57,8 +72,11 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      // retornamos un null porque el icon button es para regresar
-      onPressed: () => close(context, null), 
+      onPressed: () {
+        clearStream();
+        // we return a null because the iconButton is for back
+        close(context, null);
+      }, 
       icon: const Icon(Icons.arrow_back_ios_new_rounded)
     ); 
   }
@@ -78,7 +96,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     // now we change it to a StreamBuilder
     return StreamBuilder(
       //future: searchMovies( query ),
-      stream: debouncedMovies.stream,
+      stream: debouncedMovies.stream, // here, we create a stream from a StreamController
       builder: (context, snapshot) {
 
         final movies = snapshot.data ?? [];
@@ -87,7 +105,13 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
           itemCount: movies.length,
           itemBuilder: (context, index) => _MovieItem(
             movie: movies[index],
-            onMovieSelected: close,
+            /// here, i am just defining the structure of the function, and
+            /// what it will do when it is executed, i am telling it that the
+            /// function will receive two parameters.
+            onMovieSelected: (BuildContext contextt, Movie? moviee) {
+              clearStream();
+              close(contextt, moviee);
+            },
           ),
         );
       },
@@ -114,6 +138,8 @@ class _MovieItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        /// here, i execute the function i declared above and pass it
+        /// the requested parameters
         onMovieSelected(context, movie);
       },
       child: Padding(
