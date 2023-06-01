@@ -11,6 +11,8 @@ typedef SearchMoviesCallback = Future<List<Movie>> Function( String query );
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   final SearchMoviesCallback searchMovies;
+  final List<Movie> initialMovies;
+
   /// we need these objects to solve the problem of performing
   /// the search every time after a certain period of time.
   /// 
@@ -22,7 +24,8 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   Timer? _debounceTimer;
 
   SearchMovieDelegate({
-    required this.searchMovies
+    required this.searchMovies,
+    required this.initialMovies
   });
 
   void clearStream() {
@@ -35,13 +38,13 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     if( _debounceTimer?.isActive ?? false ) _debounceTimer!.cancel();
 
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async { 
-      if( query.isEmpty ) {
-        /// we add an event to the stream with StreamController, 
-        /// in this case, we add an empty list because the query
-        /// is empty
-        debouncedMovies.add( [] );
-        return;
-      }
+      // if( query.isEmpty ) {
+      //   /// we add an event to the stream with StreamController, 
+      //   /// in this case, we add an empty list because the query
+      //   /// is empty
+      //   debouncedMovies.add( [] );
+      //   return;
+      // }
 
       final movies = await searchMovies( query );
       // we add other event to the stream
@@ -96,6 +99,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     // Necesitamos crear el widget a partir de un Future, por eso usamos FutureBuilder
     // now we change it to a StreamBuilder
     return StreamBuilder(
+      initialData: initialMovies,
       //future: searchMovies( query ),
       stream: debouncedMovies.stream, // here, we create a stream from a StreamController
       builder: (context, snapshot) {
