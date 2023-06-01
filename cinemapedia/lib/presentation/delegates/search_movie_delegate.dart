@@ -45,6 +45,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
       final movies = await searchMovies( query );
       // we add other event to the stream
+      if(debouncedMovies.isClosed) return;
       debouncedMovies.add( movies );
     });
   }
