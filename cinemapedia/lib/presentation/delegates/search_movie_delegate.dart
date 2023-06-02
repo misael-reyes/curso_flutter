@@ -11,7 +11,7 @@ typedef SearchMoviesCallback = Future<List<Movie>> Function( String query );
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   final SearchMoviesCallback searchMovies;
-  final List<Movie> initialMovies;
+  List<Movie> initialMovies;
 
   /// we need these objects to solve the problem of performing
   /// the search every time after a certain period of time.
@@ -47,6 +47,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
       // }
 
       final movies = await searchMovies( query );
+      initialMovies = movies;
       // we add other event to the stream
       if(debouncedMovies.isClosed) return;
       debouncedMovies.add( movies );
@@ -87,7 +88,8 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Text('BuildResults');  
+    /// the StreamBuilder create a new listener
+    return buildResultsAndSuggestions(); 
   }
 
   // buildSuggestions se ejecutara cada que se escribe en el buscador
@@ -96,8 +98,10 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
     _onQueryChanged(query);
 
-    // Necesitamos crear el widget a partir de un Future, por eso usamos FutureBuilder
-    // now we change it to a StreamBuilder
+    return buildResultsAndSuggestions();
+  }
+
+  Widget buildResultsAndSuggestions() {
     return StreamBuilder(
       initialData: initialMovies,
       //future: searchMovies( query ),
