@@ -21,6 +21,12 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   /// If you only need a single broadcast stream, where only one subcriber can be
   /// active at a time, use StreamController().
   StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
+
+  /// the idea is for it to be a stream because it will be emitting many
+  /// values of true and false, although it can also be done with a 
+  /// riverpod provider
+  StreamController<bool> isLoadingStream = StreamController.broadcast();
+
   Timer? _debounceTimer;
 
   SearchMovieDelegate({
@@ -32,10 +38,14 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     // we close the stream
     debouncedMovies.close();
     _debounceTimer?.cancel();
+
+    isLoadingStream.close();
   }
 
   void _onQueryChanged( String query ) {
+    isLoadingStream.add( true );
     if( _debounceTimer?.isActive ?? false ) _debounceTimer!.cancel();
+
 
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async { 
       // if( query.isEmpty ) {
@@ -51,6 +61,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
       // we add other event to the stream
       if(debouncedMovies.isClosed) return;
       debouncedMovies.add( movies );
+      isLoadingStream.add( false );
     });
   }
 
@@ -61,16 +72,37 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   List<Widget>? buildActions(BuildContext context) {
 
     return [
-      //if(query.isNotEmpty)
-      FadeIn(
-        animate: query.isNotEmpty,
-        // duration: const Duration(milliseconds: 200),
-        child: IconButton(
-          // limpiamos la caja de texto
-          onPressed: () => query = '',
-          icon: const Icon(Icons.clear),
-        ),
+      
+      StreamBuilder(
+        stream: isLoadingStream.stream,
+        builder: (context, snapshot) {
+
+          final isLoading = snapshot.data ?? false;
+
+          return isLoading ?
+          SpinPerfect(
+            duration: const Duration(seconds: 20),
+            spins: 10,
+            infinite: true,
+            // duration: const Duration(milliseconds: 200),
+            child: IconButton(
+              // limpiamos la caja de texto
+              onPressed: () => query = '',
+              icon: const Icon(Icons.refresh_rounded),
+            ),
+          ) :
+          FadeIn(
+            animate: query.isNotEmpty,
+            // duration: const Duration(milliseconds: 200),
+            child: IconButton(
+              // limpiamos la caja de texto
+              onPressed: () => query = '',
+              icon: const Icon(Icons.clear),
+            ),
+          );
+        },
       )
+      
     ];
   }
 
