@@ -206,7 +206,10 @@ class _ActorsByMovie extends ConsumerWidget {
   }
 }
 
-class _CustomSliverAppBar extends StatelessWidget {
+/// para usar la referencia a un provider, como estamos dentro de un Staleswidget, tenemos
+/// que heredar de un ConsumerWidget y agregar el argumento ref a la función build
+
+class _CustomSliverAppBar extends ConsumerWidget {
 
   final Movie movie;
 
@@ -215,7 +218,7 @@ class _CustomSliverAppBar extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     // dimensiones del dispositivo
     final size = MediaQuery.of(context).size;
@@ -227,7 +230,9 @@ class _CustomSliverAppBar extends StatelessWidget {
 
       actions: [
         IconButton(
-          onPressed: () {}, 
+          onPressed: () {
+            ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+          }, 
           icon: const Icon(Icons.favorite_border)
           // icon: const Icon(Icons.favorite_rounded, color: Colors.red)
         )
