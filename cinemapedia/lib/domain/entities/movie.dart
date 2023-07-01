@@ -1,4 +1,19 @@
+import 'package:isar/isar.dart';
+
+// al inicio marcara error pero es normal, hasta que ejecutemos el comando
+// flutter pub run build_runner build
+// esto nos generará un archivo en la carpeta de este archivo
+part 'movie.g.dart';
+
+// tenemos que colocar collection para indicarle a isar que Movie es una entidad de la BD
+// esto lo encontramos en la documentación de isar
+// https://isar.dev/tutorials/quickstart.html#_1-add-dependencies
+
+@collection
 class Movie {
+
+  Id? isarId; // isar nos dará un id de forma automatica
+
   final bool adult;
   final String backdropPath;
   final List<String> genreIds;
