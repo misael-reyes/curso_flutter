@@ -206,6 +206,17 @@ class _ActorsByMovie extends ConsumerWidget {
   }
 }
 
+
+// FutureProvider es otro provider de riverpod
+// https://docs-v2.riverpod.dev/docs/concepts/providers
+// https://docs-v2.riverpod.dev/docs/concepts/modifiers/family
+// isFavoriteProvider emite un bool y pide un int
+final isFavoriteProvier = FutureProvider.family.autoDispose((ref, int movieId) {
+  final localStorageRepository = ref.watch(localStorageRepositoryProvider);
+  return localStorageRepository.isMovieFavorite(movieId);
+});
+
+
 /// para usar la referencia a un provider, como estamos dentro de un Staleswidget, tenemos
 /// que heredar de un ConsumerWidget y agregar el argumento ref a la función build
 
@@ -220,6 +231,10 @@ class _CustomSliverAppBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
+    // tomamos la instancia del provider que creamos arriba
+    // retorna un asyncvalue por lo que estamos usando .family
+    final AsyncValue<bool> isFavoriteFuture = ref.watch(isFavoriteProvier(movie.id));
+
     // dimensiones del dispositivo
     final size = MediaQuery.of(context).size;
 
@@ -232,8 +247,19 @@ class _CustomSliverAppBar extends ConsumerWidget {
         IconButton(
           onPressed: () {
             ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+            /// cuando hacemos clic en el boton del corazón, me gustaría volver
+            /// a realizar la petición a la BD para cambiar el icono
+            /// lo invalidamos para que vuelva hacer la petición y confirme
+            ref.invalidate(isFavoriteProvier(movie.id));
           }, 
-          icon: const Icon(Icons.favorite_border)
+          icon: isFavoriteFuture.when(
+            data: (isFavorite) => isFavorite
+              ? const Icon(Icons.favorite_rounded, color: Colors.red)
+              : const Icon(Icons.favorite_border), 
+            error: (_,__) => throw UnimplementedError(), 
+            loading: () => const CircularProgressIndicator(strokeWidth: 2)
+          ) 
+          // const Icon(Icons.favorite_border)
           // icon: const Icon(Icons.favorite_rounded, color: Colors.red)
         )
       ],
