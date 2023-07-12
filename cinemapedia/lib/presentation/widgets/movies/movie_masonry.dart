@@ -25,12 +25,34 @@ class MovieMasonry extends StatefulWidget {
 
 class _MovieMasonryState extends State<MovieMasonry> {
 
+  final scrollController = ScrollController();
+
   /// si queremos estar al pendiente del controlador, tenemos que sobreescribir al metodo
   /// initState
   
-  // TODO: initState
+  @override
+  void initState() {
+    super.initState();
+    
+    scrollController.addListener(() {
+      if( widget.loadNextPage == null ) return;
 
-  // TODO: dispose
+      // calculamos la posición actual
+      final actualPosition = scrollController.position.pixels;
+      final maxPosition = scrollController.position.maxScrollExtent;
+
+      if( (actualPosition + 150) >= maxPosition ) {
+        widget.loadNextPage!();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // cada que usemos un listener, usaremos un dispose
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +60,7 @@ class _MovieMasonryState extends State<MovieMasonry> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: MasonryGridView.count(
+        controller: scrollController,
         crossAxisCount: 3,
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
