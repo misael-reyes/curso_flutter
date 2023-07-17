@@ -245,8 +245,9 @@ class _CustomSliverAppBar extends ConsumerWidget {
 
       actions: [
         IconButton(
-          onPressed: () {
-            ref.read(localStorageRepositoryProvider).toggleFavorite(movie);
+          onPressed: () async {
+            // ref.read(localStorageRepositoryProvider).toggleFavorite(movie);
+            await ref.read( favoriteMoviesProvider.notifier ).toggleFavorite( movie );
             /// cuando hacemos clic en el boton del corazón, me gustaría volver
             /// a realizar la petición a la BD para cambiar el icono
             /// lo invalidamos para que vuelva hacer la petición y confirme

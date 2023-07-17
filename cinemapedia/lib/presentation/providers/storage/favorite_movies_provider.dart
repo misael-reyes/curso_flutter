@@ -29,7 +29,7 @@ class StorageMoviesNotifier extends StateNotifier<Map<int, Movie>> {
   }) : super({});
 
   Future<List<Movie>> loadNextPage() async {
-    final movies = await localStorageRepository.loadMovies(offset: page * 10);
+    final movies = await localStorageRepository.loadMovies(offset: page * 10, limit: 20);
     page ++;
 
     // tenemos que actualizar nuestro state
@@ -44,5 +44,22 @@ class StorageMoviesNotifier extends StateNotifier<Map<int, Movie>> {
     state = { ...state, ...tempMoviesMap };
 
     return movies;
+  }
+
+  Future<void> toggleFavorite( Movie movie ) async {
+    // impactamos en la base de datos, al usar un repository, no me importa quien es el proveedor de la BD
+    await localStorageRepository.toggleFavorite(movie);
+    // revisamos si la pelicula se encuentra en la lista de favoritos
+    final bool isMovieInFavorites = state[movie.id] != null;
+
+    if (isMovieInFavorites) {
+      // lo quitamos del estado
+      state.remove(movie.id);
+      // pero no se renderiza la vista, ya que tenemos que hacer state = para renderizar
+      state = { ...state };
+    } else {
+      // aqui lo dejamos como esta pero añadimos la nueva película al mapa
+      state = { ...state, movie.id: movie };
+    }
   }
 }
